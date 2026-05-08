@@ -1,10 +1,11 @@
 import React, { Suspense, lazy, useEffect, useMemo, useState } from 'react';
+import { BrowserRouter, Routes, Route, useParams, useNavigate, Navigate, useLocation } from 'react-router-dom';
 import { Search, Sparkles } from 'lucide-react';
 import rawData from './data/knowledge-index.json';
 import type { KnowledgeIndex, SearchItem } from './types';
 import type { View, ReaderKind, ReaderTarget } from './constants';
 import { navItems, viewMeta } from './constants';
-import { buildReaderDocument, parseReaderHash } from './utils';
+import { buildReaderDocument } from './utils';
 import { SearchResults } from './components/SharedComponents';
 import { FullReaderView } from './components/FullReaderView';
 import { DistillDeskView } from './pages/DistillDeskView';
@@ -15,32 +16,40 @@ import { EngineeringLogicView, SourcesView, InterviewsView, InterviewerView, Rad
 
 const data = rawData as KnowledgeIndex;
 
+const viewToPath: Record<View, string> = {
+  'distill-desk': '/distill-desk',
+  projects: '/projects',
+  solutions: '/solutions',
+  'pain-points': '/pain-points',
+  'engineering-logic': '/engineering-logic',
+  sources: '/sources',
+  interviews: '/interviews',
+  interviewer: '/interviewer',
+  radar: '/radar',
+  feedback: '/feedback',
+  'visual-generation': '/visual-generation',
+};
+
+function pathToView(pathname: string): View {
+  const match = Object.entries(viewToPath).find(([, path]) => pathname.startsWith(path));
+  return match ? match[0] as View : 'projects';
+}
+
 export default function App() {
-  const [view, setView] = useState<View>('projects');
+  return (
+    <BrowserRouter>
+      <AppShell />
+    </BrowserRouter>
+  );
+}
+
+function AppShell() {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [query, setQuery] = useState('');
-  const [selectedType, setSelectedType] = useState('全部');
-  const [projectViewMode, setProjectViewMode] = useState<'overview' | 'detail'>('overview');
-  const [selectedProjectId, setSelectedProjectId] = useState(data.projects[0]?.id ?? '');
-  const [selectedSolutionId, setSelectedSolutionId] = useState(data.solutions[0]?.id ?? '');
-  const [selectedPainPointId, setSelectedPainPointId] = useState(data.painPoints[0]?.id ?? '');
-  const [selectedSourceId, setSelectedSourceId] = useState(data.sources[0]?.id ?? '');
-  const [selectedInterviewId, setSelectedInterviewId] = useState(data.interviews.items[0]?.id ?? '');
   const [readerTarget, setReaderTarget] = useState<ReaderTarget | null>(null);
 
-  const projectTypes = useMemo(() => {
-    const set = new Set<string>();
-    data.projects.forEach((project) => project.types.forEach((type) => set.add(type)));
-    return ['全部', ...Array.from(set).sort((a, b) => a.localeCompare(b, 'zh-CN'))];
-  }, []);
-
-  const filteredProjects = useMemo(() => {
-    const keyword = query.trim().toLowerCase();
-    return data.projects.filter((project) => {
-      const text = `${project.name} ${project.summary} ${project.types.join(' ')} ${project.status}`.toLowerCase();
-      const typeMatch = selectedType === '全部' || project.types.includes(selectedType);
-      return typeMatch && (!keyword || text.includes(keyword));
-    });
-  }, [query, selectedType]);
+  const view = pathToView(location.pathname);
 
   const searchResults = useMemo(() => {
     const keyword = query.trim().toLowerCase();
@@ -62,27 +71,25 @@ export default function App() {
   }, [query]);
 
   useEffect(() => {
-    if (!filteredProjects.some((project) => project.id === selectedProjectId)) {
-      setSelectedProjectId(filteredProjects[0]?.id ?? data.projects[0]?.id ?? '');
-    }
-  }, [filteredProjects, selectedProjectId]);
-
-  useEffect(() => {
     if (typeof window === 'undefined') return;
     const applyHash = () => {
-      const target = parseReaderHash(window.location.hash);
-      setReaderTarget(target);
+      const hash = window.location.hash;
+      if (!hash.startsWith('#reader/')) {
+        setReaderTarget(null);
+        return;
+      }
+      const parts = hash.replace('#reader/', '').split('/');
+      if (parts.length >= 2) {
+        const kind = parts[0] as ReaderKind;
+        const id = decodeURIComponent(parts.slice(1).join('/'));
+        setReaderTarget({ kind, id });
+      }
     };
     applyHash();
     window.addEventListener('hashchange', applyHash);
     return () => window.removeEventListener('hashchange', applyHash);
   }, []);
 
-  const selectedProject = data.projects.find((project) => project.id === selectedProjectId) ?? filteredProjects[0] ?? data.projects[0];
-  const selectedSolution = data.solutions.find((item) => item.id === selectedSolutionId) ?? data.solutions[0];
-  const selectedPainPoint = data.painPoints.find((item) => item.id === selectedPainPointId) ?? data.painPoints[0];
-  const selectedSource = data.sources.find((item) => item.id === selectedSourceId) ?? data.sources[0];
-  const selectedInterview = data.interviews.items.find((item) => item.id === selectedInterviewId) ?? data.interviews.items[0];
   const activeReader = useMemo(
     () => buildReaderDocument(readerTarget, data.projects, data.solutions, data.painPoints, data.sources, data.engineeringLogic),
     [readerTarget],
@@ -100,29 +107,24 @@ export default function App() {
   function openSearchItem(item: SearchItem) {
     switch (item.kind) {
       case 'project':
-        setView('projects');
-        setSelectedProjectId(item.entityId);
-        setProjectViewMode('detail');
+        navigate(`/projects/${item.entityId}`);
         break;
       case 'solution':
-        setView('solutions');
-        setSelectedSolutionId(item.entityId);
+        navigate(`/solutions/${item.entityId}`);
         break;
       case 'painPoint':
-        setView('pain-points');
-        setSelectedPainPointId(item.entityId);
+        navigate(`/pain-points/${item.entityId}`);
         break;
       case 'source':
-        setView('sources');
-        setSelectedSourceId(item.entityId);
+        navigate(`/sources/${item.entityId}`);
         break;
       case 'interview':
-        setView('interviews');
-        setSelectedInterviewId(item.entityId);
+        navigate(`/interviews/${item.entityId}`);
         break;
       default:
         break;
     }
+    setQuery('');
   }
 
   function openReader(kind: ReaderKind, id: string) {
@@ -162,13 +164,7 @@ export default function App() {
                 key={item.id}
                 type="button"
                 className={`nav-item ${view === item.id ? 'active' : ''}`}
-                onClick={() => {
-                  closeReader();
-                  setView(item.id);
-                  if (item.id === 'projects') {
-                    setProjectViewMode('overview');
-                  }
-                }}
+                onClick={() => navigate(viewToPath[item.id])}
               >
                 <Icon size={18} />
                 <span>{item.label}</span>
@@ -217,38 +213,148 @@ export default function App() {
         {searchResults.length > 0 ? <SearchResults results={searchResults} onOpen={openSearchItem} /> : null}
 
         <Suspense fallback={<div className="detail-panel">正在加载阅读组件...</div>}>
-          {view === 'distill-desk' ? <DistillDeskView /> : null}
-          {view === 'projects' && selectedProject ? (
-            <ProjectsView
-              projects={filteredProjects}
-              selectedProject={selectedProject}
-              projectTypes={projectTypes}
-              selectedType={selectedType}
-              mode={projectViewMode}
-              onTypeChange={setSelectedType}
-              onOpenDetail={(id) => {
-                setSelectedProjectId(id);
-                setProjectViewMode('detail');
-              }}
-              onBackToOverview={() => setProjectViewMode('overview')}
-              onOpenReader={openReader}
-            />
-          ) : null}
-          {view === 'solutions' && selectedSolution ? <SolutionsView solutions={data.solutions} selectedSolution={selectedSolution} onSelect={setSelectedSolutionId} onOpenReader={openReader} /> : null}
-          {view === 'pain-points' && selectedPainPoint ? (
-            <PainPointsView painPoints={data.painPoints} selectedPainPoint={selectedPainPoint} projects={data.projects} onSelect={setSelectedPainPointId} onOpenReader={openReader} />
-          ) : null}
-          {view === 'engineering-logic' ? <EngineeringLogicView engineeringLogic={data.engineeringLogic} projects={data.projects} solutions={data.solutions} painPoints={data.painPoints} onOpenReader={openReader} /> : null}
-          {view === 'sources' && selectedSource ? <SourcesView sources={data.sources} selectedSource={selectedSource} onSelect={setSelectedSourceId} onOpenReader={openReader} /> : null}
-          {view === 'interviews' && selectedInterview ? <InterviewsView items={data.interviews.items} selectedItem={selectedInterview} onSelect={setSelectedInterviewId} /> : null}
-          {view === 'interviewer' ? <InterviewerView items={data.interviews.items} memory={data.interviews.memory} /> : null}
-          {view === 'radar' ? <RadarView projects={data.projects} /> : null}
-          {view === 'feedback' ? <FeedbackSummaryView /> : null}
-          {view === 'visual-generation' ? <VisualGenerationView /> : null}
+          <Routes>
+            <Route path="/" element={<Navigate to="/projects" replace />} />
+            <Route path="/distill-desk" element={<DistillDeskView />} />
+            <Route path="/projects" element={<ProjectsListRoute onOpenReader={openReader} />} />
+            <Route path="/projects/:id" element={<ProjectsDetailRoute onOpenReader={openReader} />} />
+            <Route path="/solutions" element={<SolutionsRoute onOpenReader={openReader} />} />
+            <Route path="/solutions/:id" element={<SolutionsRoute onOpenReader={openReader} />} />
+            <Route path="/pain-points" element={<PainPointsRoute onOpenReader={openReader} />} />
+            <Route path="/pain-points/:id" element={<PainPointsRoute onOpenReader={openReader} />} />
+            <Route path="/engineering-logic" element={<EngineeringLogicView engineeringLogic={data.engineeringLogic} projects={data.projects} solutions={data.solutions} painPoints={data.painPoints} onOpenReader={openReader} />} />
+            <Route path="/sources" element={<SourcesRoute onOpenReader={openReader} />} />
+            <Route path="/sources/:id" element={<SourcesRoute onOpenReader={openReader} />} />
+            <Route path="/interviews" element={<InterviewsRoute />} />
+            <Route path="/interviews/:id" element={<InterviewsRoute />} />
+            <Route path="/interviewer" element={<InterviewerView items={data.interviews.items} memory={data.interviews.memory} />} />
+            <Route path="/radar" element={<RadarView projects={data.projects} />} />
+            <Route path="/feedback" element={<FeedbackSummaryView />} />
+            <Route path="/visual-generation" element={<VisualGenerationView />} />
+          </Routes>
         </Suspense>
           </>
         )}
       </main>
     </div>
+  );
+}
+
+function ProjectsListRoute({ onOpenReader }: { onOpenReader: (kind: ReaderKind, id: string) => void }) {
+  const navigate = useNavigate();
+  const [selectedType, setSelectedType] = useState('全部');
+
+  const projectTypes = useMemo(() => {
+    const set = new Set<string>();
+    data.projects.forEach((project) => project.types.forEach((type) => set.add(type)));
+    return ['全部', ...Array.from(set).sort((a, b) => a.localeCompare(b, 'zh-CN'))];
+  }, []);
+
+  const filteredProjects = useMemo(() => {
+    return data.projects.filter((project) => selectedType === '全部' || project.types.includes(selectedType));
+  }, [selectedType]);
+
+  const selectedProject = filteredProjects[0] ?? data.projects[0];
+
+  return (
+    <ProjectsView
+      projects={filteredProjects}
+      selectedProject={selectedProject}
+      projectTypes={projectTypes}
+      selectedType={selectedType}
+      mode="overview"
+      onTypeChange={setSelectedType}
+      onOpenDetail={(id) => navigate(`/projects/${id}`)}
+      onBackToOverview={() => navigate('/projects')}
+      onOpenReader={onOpenReader}
+    />
+  );
+}
+
+function ProjectsDetailRoute({ onOpenReader }: { onOpenReader: (kind: ReaderKind, id: string) => void }) {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const [selectedType, setSelectedType] = useState('全部');
+
+  const projectTypes = useMemo(() => {
+    const set = new Set<string>();
+    data.projects.forEach((project) => project.types.forEach((type) => set.add(type)));
+    return ['全部', ...Array.from(set).sort((a, b) => a.localeCompare(b, 'zh-CN'))];
+  }, []);
+
+  const selectedProject = data.projects.find((p) => p.id === id) ?? data.projects[0];
+
+  return (
+    <ProjectsView
+      projects={data.projects}
+      selectedProject={selectedProject}
+      projectTypes={projectTypes}
+      selectedType={selectedType}
+      mode="detail"
+      onTypeChange={setSelectedType}
+      onOpenDetail={(id) => navigate(`/projects/${id}`)}
+      onBackToOverview={() => navigate('/projects')}
+      onOpenReader={onOpenReader}
+    />
+  );
+}
+
+function SolutionsRoute({ onOpenReader }: { onOpenReader: (kind: ReaderKind, id: string) => void }) {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const selectedSolution = data.solutions.find((s) => s.id === id) ?? data.solutions[0];
+
+  return (
+    <SolutionsView
+      solutions={data.solutions}
+      selectedSolution={selectedSolution}
+      onSelect={(id) => navigate(`/solutions/${id}`)}
+      onOpenReader={onOpenReader}
+    />
+  );
+}
+
+function PainPointsRoute({ onOpenReader }: { onOpenReader: (kind: ReaderKind, id: string) => void }) {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const selectedPainPoint = data.painPoints.find((p) => p.id === id) ?? data.painPoints[0];
+
+  return (
+    <PainPointsView
+      painPoints={data.painPoints}
+      selectedPainPoint={selectedPainPoint}
+      projects={data.projects}
+      onSelect={(id) => navigate(`/pain-points/${id}`)}
+      onOpenReader={onOpenReader}
+    />
+  );
+}
+
+function SourcesRoute({ onOpenReader }: { onOpenReader: (kind: ReaderKind, id: string) => void }) {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const selectedSource = data.sources.find((s) => s.id === id) ?? data.sources[0];
+
+  return (
+    <SourcesView
+      sources={data.sources}
+      selectedSource={selectedSource}
+      onSelect={(id) => navigate(`/sources/${id}`)}
+      onOpenReader={onOpenReader}
+    />
+  );
+}
+
+function InterviewsRoute() {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const selectedInterview = data.interviews.items.find((i) => i.id === id) ?? data.interviews.items[0];
+
+  return (
+    <InterviewsView
+      items={data.interviews.items}
+      selectedItem={selectedInterview}
+      onSelect={(id) => navigate(`/interviews/${id}`)}
+    />
   );
 }
