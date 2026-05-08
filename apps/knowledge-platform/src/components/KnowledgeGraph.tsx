@@ -39,6 +39,10 @@ function routeForNode(node: GraphNode): string {
 
 type SimNode = GraphNode & { x: number; y: number; vx: number; vy: number };
 
+const MIN_ZOOM = 0.2;
+const MAX_ZOOM = 4;
+const ZOOM_SENSITIVITY = 0.001;
+
 export function KnowledgeGraph({ data }: { data: GraphData }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const navigate = useNavigate();
@@ -46,6 +50,9 @@ export function KnowledgeGraph({ data }: { data: GraphData }) {
   const [hoveredNode, setHoveredNode] = useState<SimNode | null>(null);
   const nodesRef = useRef<SimNode[]>([]);
   const animRef = useRef<number>(0);
+  const zoomRef = useRef(1);
+  const panRef = useRef({ x: 0, y: 0 });
+  const dragRef = useRef<{ startX: number; startY: number; panX: number; panY: number } | null>(null);
 
   const filteredData = React.useMemo(() => {
     if (filter === 'all') return data;
@@ -71,7 +78,7 @@ export function KnowledgeGraph({ data }: { data: GraphData }) {
 
     const nodes: SimNode[] = filteredData.nodes.map((n, i) => {
       const angle = (i / filteredData.nodes.length) * Math.PI * 2;
-      const radius = 100 + Math.random() * 150;
+      const radius = 250 + Math.random() * 200;
       return {
         ...n,
         x: cx + Math.cos(angle) * radius,
@@ -111,8 +118,8 @@ export function KnowledgeGraph({ data }: { data: GraphData }) {
       // Simple force simulation
       for (const node of nodes) {
         // Center gravity
-        node.vx += (w / 2 - node.x) * 0.001;
-        node.vy += (h / 2 - node.y) * 0.001;
+        node.vx += (w / 2 - node.x) * 0.0005;
+        node.vy += (h / 2 - node.y) * 0.0005;
 
         // Node repulsion
         for (const other of nodes) {
@@ -120,7 +127,7 @@ export function KnowledgeGraph({ data }: { data: GraphData }) {
           const dx = node.x - other.x;
           const dy = node.y - other.y;
           const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-          const force = 500 / (dist * dist);
+          const force = 3000 / (dist * dist);
           node.vx += (dx / dist) * force;
           node.vy += (dy / dist) * force;
         }
@@ -134,7 +141,7 @@ export function KnowledgeGraph({ data }: { data: GraphData }) {
         const dx = b.x - a.x;
         const dy = b.y - a.y;
         const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-        const force = (dist - 120) * 0.005;
+        const force = (dist - 250) * 0.003;
         a.vx += (dx / dist) * force;
         a.vy += (dy / dist) * force;
         b.vx -= (dx / dist) * force;
@@ -154,6 +161,9 @@ export function KnowledgeGraph({ data }: { data: GraphData }) {
 
       // Draw
       ctx.clearRect(0, 0, w, h);
+      ctx.save();
+      ctx.translate(panRef.current.x, panRef.current.y);
+      ctx.scale(zoomRef.current, zoomRef.current);
 
       // Draw edges
       for (const rel of filteredData.relations) {
@@ -191,6 +201,8 @@ export function KnowledgeGraph({ data }: { data: GraphData }) {
         ctx.fillText(label, node.x, node.y + r + 14);
       }
 
+      ctx.restore();
+
       animRef.current = requestAnimationFrame(tick);
     }
 
@@ -198,16 +210,40 @@ export function KnowledgeGraph({ data }: { data: GraphData }) {
     return () => cancelAnimationFrame(animRef.current);
   }, [filteredData, initSimulation, hoveredNode]);
 
+  function screenToWorld(sx: number, sy: number): [number, number] {
+    return [
+      (sx - panRef.current.x) / zoomRef.current,
+      (sy - panRef.current.y) / zoomRef.current,
+    ];
+  }
+
+  function handleWheel(e: React.WheelEvent<HTMLCanvasElement>) {
+    e.preventDefault();
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
+    const sx = e.clientX - rect.left;
+    const sy = e.clientY - rect.top;
+
+    const [wx, wy] = screenToWorld(sx, sy);
+    const delta = -e.deltaY * ZOOM_SENSITIVITY;
+    const newZoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoomRef.current * (1 + delta)));
+    const factor = newZoom / zoomRef.current;
+
+    panRef.current.x = sx - wx * newZoom;
+    panRef.current.y = sy - wy * newZoom;
+    zoomRef.current = newZoom;
+  }
+
   function handleClick(e: React.MouseEvent<HTMLCanvasElement>) {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const [wx, wy] = screenToWorld(e.clientX - rect.left, e.clientY - rect.top);
 
     for (const node of nodesRef.current) {
-      const dx = x - node.x;
-      const dy = y - node.y;
+      const dx = wx - node.x;
+      const dy = wy - node.y;
       if (dx * dx + dy * dy < 100) {
         navigate(routeForNode(node));
         return;
@@ -219,12 +255,18 @@ export function KnowledgeGraph({ data }: { data: GraphData }) {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const [wx, wy] = screenToWorld(e.clientX - rect.left, e.clientY - rect.top);
+
+    // Handle panning
+    if (dragRef.current) {
+      panRef.current.x = dragRef.current.panX + (e.clientX - dragRef.current.startX);
+      panRef.current.y = dragRef.current.panY + (e.clientY - dragRef.current.startY);
+      return;
+    }
 
     for (const node of nodesRef.current) {
-      const dx = x - node.x;
-      const dy = y - node.y;
+      const dx = wx - node.x;
+      const dy = wy - node.y;
       if (dx * dx + dy * dy < 100) {
         setHoveredNode(node);
         canvas.style.cursor = 'pointer';
@@ -232,7 +274,40 @@ export function KnowledgeGraph({ data }: { data: GraphData }) {
       }
     }
     setHoveredNode(null);
-    canvas.style.cursor = 'default';
+    canvas.style.cursor = 'grab';
+  }
+
+  function handleMouseDown(e: React.MouseEvent<HTMLCanvasElement>) {
+    // Only start drag on middle click or if no node under cursor
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
+    const [wx, wy] = screenToWorld(e.clientX - rect.left, e.clientY - rect.top);
+
+    for (const node of nodesRef.current) {
+      const dx = wx - node.x;
+      const dy = wy - node.y;
+      if (dx * dx + dy * dy < 100) return; // clicking a node, don't drag
+    }
+
+    dragRef.current = {
+      startX: e.clientX,
+      startY: e.clientY,
+      panX: panRef.current.x,
+      panY: panRef.current.y,
+    };
+    canvas.style.cursor = 'grabbing';
+  }
+
+  function handleMouseUp() {
+    dragRef.current = null;
+    const canvas = canvasRef.current;
+    if (canvas) canvas.style.cursor = 'grab';
+  }
+
+  function resetView() {
+    zoomRef.current = 1;
+    panRef.current = { x: 0, y: 0 };
   }
 
   const kindCounts = React.useMemo(() => {
@@ -288,12 +363,29 @@ export function KnowledgeGraph({ data }: { data: GraphData }) {
           ))}
         </div>
 
-        <canvas
-          ref={canvasRef}
-          onClick={handleClick}
-          onMouseMove={handleMouseMove}
-          style={{ width: '100%', height: '500px', background: '#0f172a', borderRadius: '8px', border: '1px solid #1e293b' }}
-        />
+        <div style={{ position: 'relative' }}>
+          <canvas
+            ref={canvasRef}
+            onClick={handleClick}
+            onMouseMove={handleMouseMove}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+            onWheel={handleWheel}
+            style={{ width: '100%', height: '700px', background: '#0f172a', borderRadius: '8px', border: '1px solid #1e293b', cursor: 'grab' }}
+          />
+          <div style={{ position: 'absolute', top: 8, right: 8, display: 'flex', gap: 4 }}>
+            <button
+              onClick={resetView}
+              style={{ background: '#1e293b', color: '#e2e8f0', border: '1px solid #334155', borderRadius: 4, padding: '4px 10px', fontSize: '0.8rem', cursor: 'pointer' }}
+            >
+              重置视图
+            </button>
+          </div>
+          <div style={{ position: 'absolute', bottom: 8, left: 8, fontSize: '0.75rem', color: '#64748b' }}>
+            滚轮缩放 · 拖拽平移 · 点击节点跳转
+          </div>
+        </div>
 
         {hoveredNode && (
           <div style={{ marginTop: '0.5rem', padding: '0.5rem', background: '#1e293b', borderRadius: '6px', fontSize: '0.85rem' }}>
