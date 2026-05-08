@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   AlertTriangle,
+  BarChart3,
   BookOpen,
   BrainCircuit,
   ClipboardList,
@@ -30,7 +31,8 @@ export type View =
   | 'visual-generation'
   | 'graph'
   | 'compare'
-  | 'learning-path';
+  | 'learning-path'
+  | 'dashboard';
 
 export type ReaderKind = 'project' | 'solution' | 'pain-point' | 'source' | 'engineering-logic';
 
@@ -68,6 +70,7 @@ export const navItems: Array<{ id: View; label: string; icon: React.ComponentTyp
   { id: 'graph', label: '知识图谱', icon: Network },
   { id: 'compare', label: '方案对比', icon: GitCompare },
   { id: 'learning-path', label: '学习路径', icon: BookOpen },
+  { id: 'dashboard', label: '健康仪表盘', icon: BarChart3 },
 ];
 
 export const viewMeta: Record<View, { title: string; subtitle: string }> = {
@@ -126,5 +129,9 @@ export const viewMeta: Record<View, { title: string; subtitle: string }> = {
   'learning-path': {
     title: '学习路径',
     subtitle: '按入门、进阶和面试三条路径系统学习 Agent 工程，进度自动保存到本地。',
+  },
+  dashboard: {
+    title: '健康仪表盘',
+    subtitle: '一览知识库的覆盖度、质量和待补强项，帮助你决定下一步应该优先做什么。',
   },
 };

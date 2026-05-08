@@ -16,6 +16,7 @@ import { EngineeringLogicView, SourcesView, InterviewsView, InterviewerView, Rad
 import { KnowledgeGraph } from './components/KnowledgeGraph';
 import { CompareView } from './pages/CompareView';
 import { LearningPathView } from './pages/LearningPathView';
+import { DashboardView } from './pages/DashboardView';
 import { buildGraphData } from './utils';
 
 const data = rawData as KnowledgeIndex;
@@ -35,6 +36,7 @@ const viewToPath: Record<View, string> = {
   graph: '/graph',
   compare: '/compare',
   'learning-path': '/learning-path',
+  dashboard: '/dashboard',
 };
 
 function pathToView(pathname: string): View {
@@ -241,6 +243,7 @@ function AppShell() {
             <Route path="/graph" element={<GraphRoute />} />
             <Route path="/compare" element={<CompareView projects={data.projects} />} />
             <Route path="/learning-path" element={<LearningPathView projects={data.projects} solutions={data.solutions} painPoints={data.painPoints} />} />
+            <Route path="/dashboard" element={<DashboardView data={data} />} />
           </Routes>
         </Suspense>
           </>
