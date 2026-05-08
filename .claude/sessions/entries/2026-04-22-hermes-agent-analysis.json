@@ -1,0 +1,65 @@
+{
+  "id": "2026-04-22-hermes-agent-analysis",
+  "created_at": "2026-04-22T21:30:00+08:00",
+  "project": "hermes-agent",
+  "task_type": "analysis",
+  "title": "Initial Hermes Agent case study and workbench borrowing analysis",
+  "summary": "Cloned Hermes Agent to D:\\hermes-agent, analyzed it as a long-running and memory-first agent workbench, added user and agent case docs, added comparison docs against deer-flow and claude-code, and extracted the most valuable ideas for upgrading the current workbench.",
+  "keywords": [
+    "long-running-agent",
+    "memory-first",
+    "workbench",
+    "skills",
+    "session-search",
+    "mcp"
+  ],
+  "related_cases": [
+    "deer-flow",
+    "claude-code"
+  ],
+  "source_paths": [
+    "D:\\hermes-agent\\README.md",
+    "D:\\hermes-agent\\run_agent.py",
+    "D:\\hermes-agent\\gateway\\run.py",
+    "D:\\hermes-agent\\hermes_state.py",
+    "D:\\hermes-agent\\agent\\memory_manager.py",
+    "D:\\hermes-agent\\tools\\delegate_tool.py",
+    "D:\\hermes-agent\\tools\\mcp_tool.py",
+    "D:\\hermes-agent\\cron\\scheduler.py",
+    "D:\\hermes-agent\\hermes_cli\\skills_hub.py"
+  ],
+  "derived_docs": [
+    "D:\\claude-code-sourcemap\\.claude\\docs\\user\\hermes-agent\\analysis.md",
+    "D:\\claude-code-sourcemap\\.claude\\docs\\user\\hermes-agent\\vs-deer-flow-vs-claude-code.md",
+    "D:\\claude-code-sourcemap\\.claude\\docs\\user\\hermes-agent\\what-to-borrow-for-this-workbench.md",
+    "D:\\claude-code-sourcemap\\.claude\\docs\\user\\hermes-agent\\workbench-upgrade-plan.md",
+    "D:\\claude-code-sourcemap\\.claude\\docs\\agent\\hermes-agent\\analysis-condensed.md"
+  ],
+  "phase_report": "D:\\claude-code-sourcemap\\.claude\\docs\\user\\claude-code-sourcemap\\workbench-development-report.md",
+  "skill_promotions": [
+    "Promoted Hermes-derived workbench lessons into autonomous-delivery-default and the 4 core Agent research skills"
+  ],
+  "memory_promotions": [
+    "Promoted stable workbench rule that new information should enter sessions first",
+    "Promoted stable autonomous execution preference with phase reporting and evidence tracking"
+  ],
+  "doc_promotions": [
+    "Created shared development phase report template",
+    "Added workbench development report to track implementation phases"
+  ],
+  "promotion_review": {
+    "skills_checked": true,
+    "memory_checked": true,
+    "docs_checked": true,
+    "decision": "This session promoted reusable methods into skills, durable rules into memory, and shared artifacts into docs, so all three promotion paths were explicitly checked and recorded."
+  },
+  "followup_actions": [
+    {
+      "action": "Continue connecting session workflow to skill and memory feedback checks",
+      "status": "pending",
+      "owner": "workbench",
+      "notes": "The workflow now records promotions, but future sessions still need stronger default checks and automation."
+    }
+  ],
+  "status": "completed"
+}

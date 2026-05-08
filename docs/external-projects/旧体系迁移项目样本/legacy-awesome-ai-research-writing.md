@@ -1,0 +1,129 @@
+# 旧体系项目沉淀：awesome-ai-research-writing
+
+> 来源：`.claude/docs`  
+> 迁移日期：2026-05-04  
+> 旧案例 ID：`awesome-ai-research-writing`  
+> 类型：Research Workflow / Team Knowledge  
+> 迁移优先级：low  
+> 关联方案：productization
+
+## 1. 项目一句话
+
+研究 AI research writing 的资料组织、写作流程和可复用知识资产。
+
+## 2. 这件事到底考什么
+
+如何把团队知识、设计规范和输出质量要求变成可复用资产。
+
+旧文档的价值不在于保留历史文件本身，而在于把里面的项目判断、架构分析、路线规划和模板沉淀，转成现在平台能继续索引、阅读、追问和行动的知识资产。
+
+## 3. 口语版回答
+
+我会把它理解成知识资产化问题：文档不只是说明，而是 Agent 能稳定读取、复用、校验和迭代的上下文资产。
+
+如果面试官追问“你为什么要迁移旧文档”，可以这样答：旧体系里已经有大量项目分析和模板，如果不迁移，新平台看到的只是新文档，会漏掉历史判断。迁移后它们会进入项目页、方案页和痛点页，继续参与平台的自动索引和深度阅读。
+
+## 4. 旧文档证据
+
+- `.claude/docs/user/awesome-ai-research-writing/analysis.md`：Project name: awesome-ai-research-writing Project path: `D:\awesome-ai-research-writing` This repository is best understood as a research-writing knowledge asset that packages prompts, skill-installation guidance, and scenario-based usage examples into a low-friction entry point for academic AI writing workflows.
+- `.claude/docs/agent/awesome-ai-research-writing/analysis-condensed.md`：Project: `awesome-ai-research-writing` Path: `D:\awesome-ai-research-writing` 1. scenario-based prompt packaging 2. skill adoption guidance 3. input/output expectation framing
+- `.claude/docs/user/awesome-ai-research-writing/research-writing-skill-cheatsheet-zh.md`：Project name: awesome-ai-research-writing quick reference Source case: `D:\awesome-ai-research-writing` 这页不是替代原仓库。 它的作用是让你在真正写论文、改论文、整理实验或准备投稿时，先快速定位： 优先看这些场景： 优先看这些场景： 优先看这些场景： 优先看这些场景： 优先看这些场景： 适用： 优先用： 你至少要准备： 适用： 优先用： 推荐顺序： 1. 先用 `中转中` 把中文写顺 2. 再用 `中转英` 变成英文论文段落
+- `.claude/docs/user/awesome-ai-research-writing/research-writing-starter-templates-zh.md`：Project name: research writing starter templates Source case: `D:\awesome-ai-research-writing` 前面的速查表和路由器已经能回答： 但很多时候，真正卡住你的不是“知道该用什么”，而是： 这页就是为了解决这个问题。 适合： ```text 请帮我润色下面这段英文摘要，让它更像顶会论文风格。 目标会议： 当前最担心的问题： 希望保留的核心贡献句： 英文摘要： <把你的摘要贴在这里> ``` 适合： ```text 请把下面这段中文草稿改写成适合论文正文的英文段落。
+- `.claude/docs/user/awesome-ai-research-writing/what-to-borrow-for-this-workbench.md`：Project name: awesome-ai-research-writing -> current workbench Project path: `D:\awesome-ai-research-writing` -> `D:\claude-code-sourcemap` The most valuable thing to borrow is not any single prompt. It is the packaging method: This repository is useful because it turns reusable know-how into something that a normal user can actually pick up and use.
+
+## 5. 可迁移的工程问题
+
+- 这个案例对应的不是单个功能，而是 `Research Workflow / Team Knowledge` 方向的工程问题。
+- 它应该被归并到 `productization` 等 patterns 中，而不是停留在旧目录。
+- 如果旧文档里包含 roadmap、template、comparison 或 upgrade plan，应进一步拆成平台行动项。
+
+## 6. 常见误区
+
+- 只把旧文档复制到新目录，不做问题抽象。
+- 只保留 README，不迁移 analysis、roadmap、template 和 comparison。
+- 只把它当作历史材料，不让它进入平台索引。
+- 迁移后不更新相关 patterns，导致知识仍然是孤立笔记。
+
+## 7. Trade-off 与边界
+
+旧文档迁移有两个边界：
+
+- 不能无差别把所有旧文件平铺到新目录，否则目录会更乱。
+- 不能只迁移摘要，否则会丢失旧文档里真正有价值的架构判断和行动建议。
+
+所以当前采用“按案例生成深度沉淀文档 + 保留旧路径证据 + 后续逐步拆分专题”的方式。
+
+## 8. 当前项目行动项
+
+- [ ] 把该案例迁移到 Frontend Design / Knowledge Distillation / Output Quality 方案中。
+- [ ] 检查旧文档中的 roadmap、template、comparison 是否需要拆成单独 pattern。
+- [ ] 在平台中通过项目页阅读该案例，并根据内容补充痛点页证据。
+- [ ] 后续不再向 `.claude/docs` 新增沉淀，新内容统一进入 `docs/` 新体系。
+
+## 9. 面试官追问
+
+**追问：旧文档迁移和简单归档有什么区别？**
+
+答：归档只是保存文件，迁移是让旧知识重新进入当前平台的索引、阅读、方案抽象和行动项闭环。
+
+**追问：怎么避免迁移后目录更乱？**
+
+答：按案例收束到 `旧体系迁移项目样本`，用文档内部引用旧路径，不把旧目录结构原样复制出来。
+
+## 行业痛点研究版补充
+
+> 目标：把“旧体系项目沉淀：awesome-ai-research-writing”从单篇资料或单个项目笔记，升级成能服务行业痛点研究、优秀做法抽象和当前项目行动的学习资产。
+
+### 1. 它对应的行业痛点
+
+长链路 Agent 的行业共性痛点是上下文会膨胀、记忆会过期、历史会污染当前任务。问题本质不是存更多内容，而是治理作用域、生命周期、召回和注入。
+
+判断它是不是值得持续沉淀，不看它是否新奇，而看它能不能解释一个反复出现的行业问题，并能不能给当前项目带来可执行改变。
+
+### 2. 可作为证据的来源类型
+
+长运行 Agent 项目、Memory 系统设计、旧体系会话文档、RAG 和上下文工程资料。
+
+后续如果新增 GitHub、优质博客、论文或你提供的文档，都应该先判断它能否补强这一类证据，而不是直接堆进知识库。
+
+### 3. 优秀项目或资料的共性做法
+
+共性做法是 Scope + Lifecycle + Storage + Retrieval + Injection + Freshness Check，把记忆从聊天记录升级成可治理资产。
+
+这里真正要学的不是表层功能名，而是成熟项目如何划分边界、控制风险、组织证据、形成可复用流程。
+
+### 4. 数据支撑与判断信号
+
+可观察信号包括重复读取次数、上下文截断次数、过期记忆命中率、任务恢复成功率。
+
+这些信号用于避免主观判断。后续平台应该让痛点页自动展示证据项目数、来源类型、关联方案数和行动项数量。
+
+### 5. 给当前项目的启发
+
+这份文档应该反哺 `claude-code-sourcemap` 的三个位置：
+
+- 项目页：说明它作为样本值得学习什么。
+- 痛点页：说明它补强了哪个 Agent / 大模型行业共性问题。
+- 方案页：说明它能沉淀成什么可迁移框架。
+
+### 6. 当前项目行动项
+
+- [ ] 把该文档关联到 Memory / Context 行业痛点，并补充记忆分层、刷新和注入规则。
+- [ ] 检查它是否需要更新 `docs/pain-points/` 的行业痛点说明。
+- [ ] 检查它是否需要更新 `docs/patterns/` 的通用技术框架。
+- [ ] 如果它来自外部资料，把它登记到 `docs/source-library/` 或 Project Radar 候选池。
+
+### 7. 自动进化规则
+
+每次新增相关资料后，按以下顺序更新：
+
+```text
+资料源
+  -> 行业痛点
+  -> 证据项目/资料
+  -> 共性做法
+  -> 数据支撑
+  -> 当前项目行动项
+  -> 面试官追问
+```
+

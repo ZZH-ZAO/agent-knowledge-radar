@@ -1,0 +1,47 @@
+{
+  "id": "YYYY-MM-DD-project-slug-task-slug",
+  "created_at": "2026-04-22T00:00:00+08:00",
+  "project": "example-project",
+  "task_type": "analysis",
+  "title": "Short title for the session",
+  "summary": "2-4 sentence summary of the task outcome and why it matters.",
+  "keywords": [
+    "runtime-first",
+    "memory-first"
+  ],
+  "related_cases": [
+    "claude-code",
+    "deer-flow"
+  ],
+  "source_paths": [
+    "D:\\example-project\\README.md"
+  ],
+  "derived_docs": [
+    "D:\\claude-code-sourcemap\\.claude\\docs\\user\\example-project\\analysis.md"
+  ],
+  "phase_report": "D:\\claude-code-sourcemap\\.claude\\docs\\user\\example-project\\development-report.md",
+  "skill_promotions": [
+    "Update agent-research-workbench skill routing based on this case"
+  ],
+  "memory_promotions": [
+    "Promote one stable heuristic if this case proves reusable across projects"
+  ],
+  "doc_promotions": [
+    "Create or update one shared template if the case yields a reusable method"
+  ],
+  "promotion_review": {
+    "skills_checked": true,
+    "memory_checked": true,
+    "docs_checked": true,
+    "decision": "Explicitly record whether this case promoted anything into skills, memory, or docs, even if the answer is that no promotion was needed."
+  },
+  "followup_actions": [
+    {
+      "action": "Register any resulting skill or memory updates after the case is archived",
+      "status": "pending",
+      "owner": "workbench",
+      "notes": "Default follow-up item structure. Valid statuses: pending, completed, needs-confirmation."
+    }
+  ],
+  "status": "completed"
+}

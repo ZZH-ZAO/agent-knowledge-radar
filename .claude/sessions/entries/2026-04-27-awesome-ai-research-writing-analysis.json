@@ -1,0 +1,56 @@
+{
+  "id": "2026-04-27-awesome-ai-research-writing-analysis",
+  "created_at": "2026-04-27T00:00:00+08:00",
+  "project": "awesome-ai-research-writing",
+  "task_type": "analysis",
+  "title": "awesome-ai-research-writing knowledge-asset case study and workbench intake",
+  "summary": "Cloned awesome-ai-research-writing to D:\\awesome-ai-research-writing, analyzed it as a research-writing prompt and skill knowledge asset rather than a runtime Agent system, added case docs plus a workbench borrowing note, and expanded the workbench to treat knowledge-product repositories as first-class reference cases.",
+  "keywords": [
+    "team-knowledge",
+    "research-writing",
+    "prompt-library",
+    "skills-adoption",
+    "knowledge-asset",
+    "workflow-packaging"
+  ],
+  "related_cases": [
+    "awesome-design-md",
+    "hermes-agent",
+    "career-ops"
+  ],
+  "source_paths": [
+    "D:\\awesome-ai-research-writing\\README.md",
+    "D:\\awesome-ai-research-writing\\images\\example.png",
+    "D:\\awesome-ai-research-writing\\images\\model-rank.png"
+  ],
+  "derived_docs": [
+    "D:\\claude-code-sourcemap\\.claude\\docs\\user\\awesome-ai-research-writing\\README.md",
+    "D:\\claude-code-sourcemap\\.claude\\docs\\user\\awesome-ai-research-writing\\analysis.md",
+    "D:\\claude-code-sourcemap\\.claude\\docs\\user\\awesome-ai-research-writing\\research-writing-skill-cheatsheet-zh.md",
+    "D:\\claude-code-sourcemap\\.claude\\docs\\user\\awesome-ai-research-writing\\research-writing-starter-templates-zh.md",
+    "D:\\claude-code-sourcemap\\.claude\\docs\\user\\awesome-ai-research-writing\\what-to-borrow-for-this-workbench.md",
+    "D:\\claude-code-sourcemap\\.claude\\docs\\agent\\awesome-ai-research-writing\\analysis-condensed.md"
+  ],
+  "phase_report": "D:\\claude-code-sourcemap\\.claude\\docs\\user\\claude-code-sourcemap\\workbench-development-report.md",
+  "promotion_review": {
+    "skills_checked": true,
+    "memory_checked": true,
+    "docs_checked": true,
+    "decision": "This case mainly expanded the reusable documentation and routing coverage of the case library. It did not require a new stable memory rule or a direct skill-body rewrite, but it did justify explicit case-library and advisor updates for knowledge-asset style repositories."
+  },
+  "doc_promotions": [
+    "Added awesome-ai-research-writing as a first-class knowledge-asset case in the shared case library index"
+  ],
+  "skill_promotions": [
+    "Added a dedicated research-writing task router that maps natural-language writing requests to prompt and skill paths"
+  ],
+  "followup_actions": [
+    {
+      "action": "Consider adding a dedicated knowledge-asset routing template if more prompt-library and skill-onboarding repositories are archived",
+      "status": "pending",
+      "owner": "workbench",
+      "notes": "One case is enough to justify the category, but not yet enough to finalize a richer reusable template."
+    }
+  ],
+  "status": "completed"
+}

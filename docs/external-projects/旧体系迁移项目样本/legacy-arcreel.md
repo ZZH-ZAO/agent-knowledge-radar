@@ -1,0 +1,128 @@
+# 旧体系项目沉淀：ArcReel
+
+> 来源：`.claude/docs`  
+> 迁移日期：2026-05-04  
+> 旧案例 ID：`arcreel`  
+> 类型：Creative Agent Platform / Provider / Productization  
+> 迁移优先级：medium  
+> 关联方案：provider-abstraction、productization、multi-agent
+
+## 1. 项目一句话
+
+研究创意生产 Agent 平台如何处理 session、reconnect、orchestrator skill、异步队列和多 provider。
+
+## 2. 这件事到底考什么
+
+如何从旧体系项目案例中抽象出可迁移的 Agent 工程问题。
+
+旧文档的价值不在于保留历史文件本身，而在于把里面的项目判断、架构分析、路线规划和模板沉淀，转成现在平台能继续索引、阅读、追问和行动的知识资产。
+
+## 3. 口语版回答
+
+我会先看它解决的真实问题，再看旧文档里的证据和实现建议，最后归并到当前 patterns 与平台行动项。
+
+如果面试官追问“你为什么要迁移旧文档”，可以这样答：旧体系里已经有大量项目分析和模板，如果不迁移，新平台看到的只是新文档，会漏掉历史判断。迁移后它们会进入项目页、方案页和痛点页，继续参与平台的自动索引和深度阅读。
+
+## 4. 旧文档证据
+
+- `.claude/docs/user/arcreel/analysis.md`：Project name: ArcReel Project path: `D:\ArcReel` ArcReel 不是一个单纯的 AI 视频生成 Demo，也不是一个只研究底层 Agent loop 的 runtime 样本。 它更准确的定位是： > 一个以 AI 视频创作为业务场景、以 Agent 编排为控制层、以多供应商媒体后端和任务队列为执行底座的产品化 Agent 平台。 这里有三个关键词要同时抓住： 很多项目只满足其中一个： ArcReel 比较特别的地方在于，它把三者叠在一起了： 所以如果要把它放进案例库，我会把它理解成：
+- `.claude/docs/agent/arcreel/analysis-condensed.md`：Project name: ArcReel Project path: `D:\ArcReel` AI video creation workbench that combines: Not a pure runtime-first sample. Not a simple vertical workflow only. Best understood as a productized Agent platform for creative production. Memory is distributed across three layers:
+- `.claude/docs/user/arcreel/platform-roadmap.md`：Project name: ArcReel Project path: `D:\ArcReel` 如果只用一句话概括，我会这样说： > ArcReel 下一步最值得补的，不是再接更多模型，而是把“知识资产层、平台观测层、工作流治理层”做得更完整。 原因是现在的 ArcReel 已经有很强的底座了： 也就是说，它已经不是“能不能成为平台”的问题，而是“怎么把平台做得更深、更稳、更可持续”的问题。 所以我建议它后续重点围绕三类目标升级： 我建议按下面三层顺序推进： 这个顺序的逻辑是： ArcReel 已经做了会话管理、snapshot、interrupt、turn normalization，这很好，但如果继续产品化，下一步最值得补的是：
+- `.claude/docs/user/arcreel/vs-claude-code-vs-fault-diagnosis.md`：Project name: ArcReel vs claude-code vs fault-diagnosis Project path: `D:\ArcReel`, `D:\claude-code`, `D:\fault-diagnosis` 如果要用最短的话概括这三个项目，我会这样分： 它们都不是“简单聊天机器人”，但系统重心完全不同。 更像： 它最关心的是： 更像： 它最关心的是： 更像： 它最关心的是： 也就是说，它的重心更偏： 也就是说，它的重心更偏： 也就是说，它的重心更偏： 这三个中心不同，会导致它们的所有工程选择都不一样。
+
+## 5. 可迁移的工程问题
+
+- 这个案例对应的不是单个功能，而是 `Creative Agent Platform / Provider / Productization` 方向的工程问题。
+- 它应该被归并到 `provider-abstraction、productization、multi-agent` 等 patterns 中，而不是停留在旧目录。
+- 如果旧文档里包含 roadmap、template、comparison 或 upgrade plan，应进一步拆成平台行动项。
+
+## 6. 常见误区
+
+- 只把旧文档复制到新目录，不做问题抽象。
+- 只保留 README，不迁移 analysis、roadmap、template 和 comparison。
+- 只把它当作历史材料，不让它进入平台索引。
+- 迁移后不更新相关 patterns，导致知识仍然是孤立笔记。
+
+## 7. Trade-off 与边界
+
+旧文档迁移有两个边界：
+
+- 不能无差别把所有旧文件平铺到新目录，否则目录会更乱。
+- 不能只迁移摘要，否则会丢失旧文档里真正有价值的架构判断和行动建议。
+
+所以当前采用“按案例生成深度沉淀文档 + 保留旧路径证据 + 后续逐步拆分专题”的方式。
+
+## 8. 当前项目行动项
+
+- [ ] 把该案例作为旧体系迁移样本，继续补充项目证据、通用问题和行动项。
+- [ ] 检查旧文档中的 roadmap、template、comparison 是否需要拆成单独 pattern。
+- [ ] 在平台中通过项目页阅读该案例，并根据内容补充痛点页证据。
+- [ ] 后续不再向 `.claude/docs` 新增沉淀，新内容统一进入 `docs/` 新体系。
+
+## 9. 面试官追问
+
+**追问：旧文档迁移和简单归档有什么区别？**
+
+答：归档只是保存文件，迁移是让旧知识重新进入当前平台的索引、阅读、方案抽象和行动项闭环。
+
+**追问：怎么避免迁移后目录更乱？**
+
+答：按案例收束到 `旧体系迁移项目样本`，用文档内部引用旧路径，不把旧目录结构原样复制出来。
+
+## 行业痛点研究版补充
+
+> 目标：把“旧体系项目沉淀：ArcReel”从单篇资料或单个项目笔记，升级成能服务行业痛点研究、优秀做法抽象和当前项目行动的学习资产。
+
+### 1. 它对应的行业痛点
+
+长链路 Agent 的行业共性痛点是上下文会膨胀、记忆会过期、历史会污染当前任务。问题本质不是存更多内容，而是治理作用域、生命周期、召回和注入。
+
+判断它是不是值得持续沉淀，不看它是否新奇，而看它能不能解释一个反复出现的行业问题，并能不能给当前项目带来可执行改变。
+
+### 2. 可作为证据的来源类型
+
+长运行 Agent 项目、Memory 系统设计、旧体系会话文档、RAG 和上下文工程资料。
+
+后续如果新增 GitHub、优质博客、论文或你提供的文档，都应该先判断它能否补强这一类证据，而不是直接堆进知识库。
+
+### 3. 优秀项目或资料的共性做法
+
+共性做法是 Scope + Lifecycle + Storage + Retrieval + Injection + Freshness Check，把记忆从聊天记录升级成可治理资产。
+
+这里真正要学的不是表层功能名，而是成熟项目如何划分边界、控制风险、组织证据、形成可复用流程。
+
+### 4. 数据支撑与判断信号
+
+可观察信号包括重复读取次数、上下文截断次数、过期记忆命中率、任务恢复成功率。
+
+这些信号用于避免主观判断。后续平台应该让痛点页自动展示证据项目数、来源类型、关联方案数和行动项数量。
+
+### 5. 给当前项目的启发
+
+这份文档应该反哺 `claude-code-sourcemap` 的三个位置：
+
+- 项目页：说明它作为样本值得学习什么。
+- 痛点页：说明它补强了哪个 Agent / 大模型行业共性问题。
+- 方案页：说明它能沉淀成什么可迁移框架。
+
+### 6. 当前项目行动项
+
+- [ ] 把该文档关联到 Memory / Context 行业痛点，并补充记忆分层、刷新和注入规则。
+- [ ] 检查它是否需要更新 `docs/pain-points/` 的行业痛点说明。
+- [ ] 检查它是否需要更新 `docs/patterns/` 的通用技术框架。
+- [ ] 如果它来自外部资料，把它登记到 `docs/source-library/` 或 Project Radar 候选池。
+
+### 7. 自动进化规则
+
+每次新增相关资料后，按以下顺序更新：
+
+```text
+资料源
+  -> 行业痛点
+  -> 证据项目/资料
+  -> 共性做法
+  -> 数据支撑
+  -> 当前项目行动项
+  -> 面试官追问
+```
+

@@ -1,0 +1,427 @@
+{
+  "source": ".claude/docs",
+  "updatedAt": "2026-05-04",
+  "cases": [
+    {
+      "id": "awesome-design-md",
+      "name": "VoltAgent/awesome-design-md",
+      "types": [
+        "Frontend Design",
+        "Team Knowledge"
+      ],
+      "coreValue": "研究 DESIGN.md 如何成为 AI 编码前端的可复用设计控制资产。",
+      "priority": "migrated",
+      "userDoc": ".claude/docs/user/awesome-design-md/analysis.md",
+      "agentDoc": ".claude/docs/agent/awesome-design-md/analysis-condensed.md",
+      "migratedTo": "docs/external-projects/AI 前端设计规范样本/voltagent-awesome-design-md.md",
+      "relatedPatterns": [
+        "frontend-design-control"
+      ]
+    },
+    {
+      "id": "claude-code-sourcemap",
+      "name": "claude-code-sourcemap",
+      "types": [
+        "Agent Runtime",
+        "Tool Runtime",
+        "Memory",
+        "Multi-Agent"
+      ],
+      "coreValue": "研究编码 Agent 核心执行引擎，包括 query loop、工具调用、上下文控制和 session orchestration。",
+      "priority": "high",
+      "userDoc": ".claude/docs/user/claude-code-sourcemap/analysis.md",
+      "agentDoc": ".claude/docs/agent/claude-code-sourcemap/analysis-condensed.md",
+      "migrationNote": "本案例应和 docs/source-research/当前项目沉淀与路线/current-project-distillation.md 合并，补成源码地图和 runtime patterns 的证据层。",
+      "relatedPatterns": [
+        "agent-runtime",
+        "tool-runtime",
+        "memory-system",
+        "multi-agent"
+      ],
+      "migratedTo": "docs/external-projects/旧体系迁移项目样本/legacy-claude-code-sourcemap.md"
+    },
+    {
+      "id": "claude-code",
+      "name": "Claude Code",
+      "types": [
+        "Agent Runtime",
+        "Productization",
+        "Observability"
+      ],
+      "coreValue": "研究 Agent Runtime 如何演进成产品平台，包括 capability gating、控制面、团队记忆和可观测性。",
+      "priority": "high",
+      "userDoc": ".claude/docs/user/claude-code/analysis.md",
+      "agentDoc": ".claude/docs/agent/claude-code/analysis-condensed.md",
+      "migrationNote": "应和 docs/external-projects/Claude Code 生态与源码样本/anthropics-claude-code.md 合并深化。",
+      "relatedPatterns": [
+        "productization",
+        "observability",
+        "memory-system"
+      ],
+      "migratedTo": "docs/external-projects/旧体系迁移项目样本/legacy-claude-code.md"
+    },
+    {
+      "id": "deer-flow",
+      "name": "deer-flow",
+      "types": [
+        "Agent Runtime",
+        "MCP",
+        "Memory",
+        "Permission / Sandbox"
+      ],
+      "coreValue": "研究 super-agent harness 如何组织 middleware、skills、MCP、memory、subagents 和 sandbox。",
+      "priority": "high",
+      "userDoc": ".claude/docs/user/deer-flow/analysis.md",
+      "agentDoc": ".claude/docs/agent/deer-flow/analysis-condensed.md",
+      "migrationNote": "适合补充 Agent Runtime、Plugin / Skill、MCP Integration 和 Sandbox patterns。",
+      "relatedPatterns": [
+        "agent-runtime",
+        "plugin-system",
+        "mcp-integration",
+        "permission-sandbox"
+      ],
+      "migratedTo": "docs/external-projects/旧体系迁移项目样本/legacy-deer-flow.md"
+    },
+    {
+      "id": "hermes-agent",
+      "name": "hermes-agent",
+      "types": [
+        "Long-running Agent",
+        "Memory",
+        "Plugin / Skill"
+      ],
+      "coreValue": "研究长运行个人/团队 Agent 的持久会话、搜索、记忆、skills、调度和多入口工作台。",
+      "priority": "high",
+      "userDoc": ".claude/docs/user/hermes-agent/analysis.md",
+      "agentDoc": ".claude/docs/agent/hermes-agent/analysis-condensed.md",
+      "migrationNote": "适合沉淀 long-running agent 和 memory-first workbench 方案。",
+      "relatedPatterns": [
+        "memory-system",
+        "plugin-system",
+        "productization"
+      ],
+      "migratedTo": "docs/external-projects/旧体系迁移项目样本/legacy-hermes-agent.md"
+    },
+    {
+      "id": "repomind",
+      "name": "repomind",
+      "types": [
+        "Repository Intelligence",
+        "Tool Runtime",
+        "Productization"
+      ],
+      "coreValue": "研究仓库智能产品如何结合 file-selection CAG、GitHub evidence tools、streaming、缓存和安全扫描。",
+      "priority": "high",
+      "userDoc": ".claude/docs/user/repomind/analysis.md",
+      "agentDoc": ".claude/docs/agent/repomind/analysis-condensed.md",
+      "migrationNote": "适合补充代码仓库问答、安全扫描和证据链型 Agent 产品方案。",
+      "relatedPatterns": [
+        "tool-runtime",
+        "observability",
+        "productization"
+      ],
+      "migratedTo": "docs/external-projects/旧体系迁移项目样本/legacy-repomind.md"
+    },
+    {
+      "id": "fireworks-tech-graph",
+      "name": "fireworks-tech-graph",
+      "types": [
+        "Team Knowledge",
+        "Documentation",
+        "Quality Control"
+      ],
+      "coreValue": "研究技术图生成如何封装为 skill，并用样式系统、语义图元、校验和 fixture 控制质量。",
+      "priority": "high",
+      "userDoc": ".claude/docs/user/fireworks-tech-graph/analysis.md",
+      "agentDoc": ".claude/docs/agent/fireworks-tech-graph/analysis-condensed.md",
+      "migrationNote": "适合补充 Agent output quality control 与技术文档可视化 patterns。",
+      "relatedPatterns": [
+        "frontend-design-control",
+        "observability"
+      ],
+      "migratedTo": "docs/external-projects/旧体系迁移项目样本/legacy-fireworks-tech-graph.md"
+    },
+    {
+      "id": "fault-diagnosis",
+      "name": "fault-diagnosis",
+      "types": [
+        "Vertical Workflow",
+        "RAG",
+        "Report Generation"
+      ],
+      "coreValue": "研究工业诊断 Agent 如何把结构化数据、外部 ML、知识检索、图表和报告串成可信工作流。",
+      "priority": "medium",
+      "userDoc": ".claude/docs/user/fault-diagnosis/analysis.md",
+      "agentDoc": ".claude/docs/agent/fault-diagnosis/analysis-condensed.md",
+      "migrationNote": "适合沉淀垂直工作流、证据链报告和 domain-specific Agent patterns。",
+      "relatedPatterns": [
+        "tool-runtime",
+        "observability",
+        "productization"
+      ],
+      "migratedTo": "docs/external-projects/旧体系迁移项目样本/legacy-fault-diagnosis.md"
+    },
+    {
+      "id": "career-ops",
+      "name": "career-ops",
+      "types": [
+        "Vertical Workflow",
+        "Human Review"
+      ],
+      "coreValue": "研究业务流程型 Agent 如何编码 domain procedure、输出契约、批处理和人工审阅。",
+      "priority": "medium",
+      "userDoc": ".claude/docs/user/career-ops/analysis.md",
+      "agentDoc": ".claude/docs/agent/career-ops/analysis-condensed.md",
+      "migrationNote": "适合补充 vertical workflow 和 human-in-the-loop patterns。",
+      "relatedPatterns": [
+        "multi-agent",
+        "productization"
+      ],
+      "migratedTo": "docs/external-projects/旧体系迁移项目样本/legacy-career-ops.md"
+    },
+    {
+      "id": "cekai-auto-prd-test-agent",
+      "name": "cekai-auto-prd-test-agent",
+      "types": [
+        "Testing Agent",
+        "RAG",
+        "Vertical Workflow"
+      ],
+      "coreValue": "研究 PRD 到测试用例的结构化生成、local RAG、人类修订和 AI 质量评审。",
+      "priority": "medium",
+      "userDoc": ".claude/docs/user/cekai-auto-prd-test-agent/analysis.md",
+      "agentDoc": ".claude/docs/agent/cekai-auto-prd-test-agent/analysis-condensed.md",
+      "migrationNote": "适合补充 testing agent 与 evaluator / critic patterns。",
+      "relatedPatterns": [
+        "observability",
+        "productization"
+      ],
+      "migratedTo": "docs/external-projects/旧体系迁移项目样本/legacy-cekai-auto-prd-test-agent.md"
+    },
+    {
+      "id": "promptfoo",
+      "name": "promptfoo",
+      "types": [
+        "Eval",
+        "Quality Governance",
+        "Security"
+      ],
+      "coreValue": "研究 LLM / Agent 应用的 eval、red teaming、benchmark 和 CI/CD 质量治理。",
+      "priority": "medium",
+      "userDoc": ".claude/docs/user/promptfoo/analysis.md",
+      "agentDoc": ".claude/docs/agent/promptfoo/analysis-condensed.md",
+      "migrationNote": "适合补充 Agent evaluation、red-team 和质量回归 patterns。",
+      "relatedPatterns": [
+        "observability",
+        "permission-sandbox"
+      ],
+      "migratedTo": "docs/external-projects/旧体系迁移项目样本/legacy-promptfoo.md"
+    },
+    {
+      "id": "giskard",
+      "name": "giskard",
+      "types": [
+        "Eval",
+        "RAG Testing",
+        "Multi-turn Agent"
+      ],
+      "coreValue": "研究多轮 Agent evaluation、RAG groundedness、conformity 和 LLM-as-judge 检查。",
+      "priority": "medium",
+      "userDoc": ".claude/docs/user/giskard/analysis.md",
+      "agentDoc": ".claude/docs/agent/giskard/analysis-condensed.md",
+      "migrationNote": "适合和 promptfoo 合并成 AI quality / evaluation 方案组。",
+      "relatedPatterns": [
+        "observability"
+      ],
+      "migratedTo": "docs/external-projects/旧体系迁移项目样本/legacy-giskard.md"
+    },
+    {
+      "id": "adk-python",
+      "name": "adk-python",
+      "types": [
+        "Agent Framework",
+        "MCP",
+        "Multi-Agent",
+        "Eval"
+      ],
+      "coreValue": "研究 Google 官方 code-first Agent framework 如何包装 tools、MCP/OpenAPI、multi-agent、eval 和 deployment。",
+      "priority": "medium",
+      "userDoc": ".claude/docs/user/adk-python/analysis.md",
+      "agentDoc": ".claude/docs/agent/adk-python/analysis-condensed.md",
+      "migrationNote": "适合对比官方 framework 的 runtime substrate 设计。",
+      "relatedPatterns": [
+        "agent-runtime",
+        "tool-runtime",
+        "multi-agent",
+        "mcp-integration"
+      ],
+      "migratedTo": "docs/external-projects/旧体系迁移项目样本/legacy-adk-python.md"
+    },
+    {
+      "id": "agentset",
+      "name": "agentset",
+      "types": [
+        "RAG Platform",
+        "Productization",
+        "Multi-Tenancy"
+      ],
+      "coreValue": "研究 RAG 如何从检索功能升级成 ingestion、indexing、evaluation、API 和 hosting 平台。",
+      "priority": "medium",
+      "userDoc": ".claude/docs/user/agentset/analysis.md",
+      "agentDoc": ".claude/docs/agent/agentset/analysis-condensed.md",
+      "migrationNote": "适合补充 RAG platform 和 hosted retrieval patterns。",
+      "relatedPatterns": [
+        "productization",
+        "observability"
+      ],
+      "migratedTo": "docs/external-projects/旧体系迁移项目样本/legacy-agentset.md"
+    },
+    {
+      "id": "ms-agent",
+      "name": "ms-agent",
+      "types": [
+        "Agent Framework",
+        "MCP",
+        "Memory",
+        "Plugin / Skill"
+      ],
+      "coreValue": "研究广义 Agent framework 如何组合 MCP、skills、memory、context compression 和参考应用。",
+      "priority": "medium",
+      "userDoc": ".claude/docs/user/ms-agent/analysis.md",
+      "agentDoc": ".claude/docs/agent/ms-agent/analysis-condensed.md",
+      "migrationNote": "适合补充 broad framework 与 MCP-enabled runtime 对比。",
+      "relatedPatterns": [
+        "agent-runtime",
+        "mcp-integration",
+        "memory-system",
+        "plugin-system"
+      ],
+      "migratedTo": "docs/external-projects/旧体系迁移项目样本/legacy-ms-agent.md"
+    },
+    {
+      "id": "langgraph-mcp-agents",
+      "name": "langgraph-mcp-agents",
+      "types": [
+        "MCP Workbench",
+        "Tool Runtime"
+      ],
+      "coreValue": "研究 LangGraph、ReAct agent、MCP 和 Streamlit 如何组成轻量可教学的工具工作台。",
+      "priority": "medium",
+      "userDoc": ".claude/docs/user/langgraph-mcp-agents/analysis.md",
+      "agentDoc": ".claude/docs/agent/langgraph-mcp-agents/analysis-condensed.md",
+      "migrationNote": "适合补充 MCP tool management UX 和 rapid workbench patterns。",
+      "relatedPatterns": [
+        "mcp-integration",
+        "tool-runtime"
+      ],
+      "migratedTo": "docs/external-projects/旧体系迁移项目样本/legacy-langgraph-mcp-agents.md"
+    },
+    {
+      "id": "browser-harness",
+      "name": "browser-harness",
+      "types": [
+        "Browser Tool Runtime",
+        "Automation"
+      ],
+      "coreValue": "研究浏览器执行环境、页面操作和工具编排如何进入 Agent 工作流。",
+      "priority": "medium",
+      "userDoc": ".claude/docs/user/browser-harness/analysis.md",
+      "agentDoc": ".claude/docs/agent/browser-harness/analysis-condensed.md",
+      "migrationNote": "适合补充 Browser Tool Runtime 与前端验证工具链。",
+      "relatedPatterns": [
+        "tool-runtime",
+        "observability"
+      ],
+      "migratedTo": "docs/external-projects/旧体系迁移项目样本/legacy-browser-harness.md"
+    },
+    {
+      "id": "qaagent",
+      "name": "QAagent",
+      "types": [
+        "Testing Agent",
+        "Multi-Agent"
+      ],
+      "coreValue": "研究 research-style multi-agent test generation 和中间伪代码表示。",
+      "priority": "medium",
+      "userDoc": ".claude/docs/user/qaagent/analysis.md",
+      "agentDoc": ".claude/docs/agent/qaagent/analysis-condensed.md",
+      "migrationNote": "适合补充 testing agent 的 multi-agent decomposition patterns。",
+      "relatedPatterns": [
+        "multi-agent",
+        "observability"
+      ],
+      "migratedTo": "docs/external-projects/旧体系迁移项目样本/legacy-qaagent.md"
+    },
+    {
+      "id": "arcreel",
+      "name": "ArcReel",
+      "types": [
+        "Creative Agent Platform",
+        "Provider",
+        "Productization"
+      ],
+      "coreValue": "研究创意生产 Agent 平台如何处理 session、reconnect、orchestrator skill、异步队列和多 provider。",
+      "priority": "medium",
+      "userDoc": ".claude/docs/user/arcreel/analysis.md",
+      "agentDoc": ".claude/docs/agent/arcreel/analysis-condensed.md",
+      "migrationNote": "适合补充 long-running generation、provider abstraction 和 product workspace patterns。",
+      "relatedPatterns": [
+        "provider-abstraction",
+        "productization",
+        "multi-agent"
+      ],
+      "migratedTo": "docs/external-projects/旧体系迁移项目样本/legacy-arcreel.md"
+    },
+    {
+      "id": "awesome-ai-research-writing",
+      "name": "awesome-ai-research-writing",
+      "types": [
+        "Research Workflow",
+        "Team Knowledge"
+      ],
+      "coreValue": "研究 AI research writing 的资料组织、写作流程和可复用知识资产。",
+      "priority": "low",
+      "userDoc": ".claude/docs/user/awesome-ai-research-writing/analysis.md",
+      "agentDoc": ".claude/docs/agent/awesome-ai-research-writing/analysis-condensed.md",
+      "migrationNote": "适合以后扩展研究写作和资料沉淀能力时迁移。",
+      "relatedPatterns": [
+        "productization"
+      ],
+      "migratedTo": "docs/external-projects/旧体系迁移项目样本/legacy-awesome-ai-research-writing.md"
+    },
+    {
+      "id": "computer-fundamentals",
+      "name": "computer-fundamentals",
+      "types": [
+        "Interview Knowledge",
+        "Team Knowledge"
+      ],
+      "coreValue": "研究计算机基础知识如何按问题、对比、常见误区和工程关联组织成面试知识库。",
+      "priority": "low",
+      "userDoc": ".claude/docs/user/computer-fundamentals/analysis.md",
+      "agentDoc": ".claude/docs/agent/computer-fundamentals/analysis-condensed.md",
+      "migrationNote": "适合接入面经、八股和 AI 面试官模块。",
+      "relatedPatterns": [],
+      "migratedTo": "docs/external-projects/旧体系迁移项目样本/legacy-computer-fundamentals.md"
+    },
+    {
+      "id": "shared",
+      "name": "shared templates",
+      "types": [
+        "Templates",
+        "Playbook"
+      ],
+      "coreValue": "旧体系共享模板，包括测试 Agent 设计模板、输出质量控制模板和 refactoring review playbook。",
+      "priority": "low",
+      "userDoc": ".claude/docs/user/shared",
+      "agentDoc": ".claude/docs/agent/shared",
+      "migrationNote": "适合拆分进 docs/templates、docs/interviews 或 patterns。",
+      "relatedPatterns": [
+        "observability",
+        "frontend-design-control"
+      ],
+      "migratedTo": "docs/external-projects/旧体系迁移项目样本/legacy-shared.md"
+    }
+  ],
+  "migrationStatus": "旧体系项目级文档已迁移到 docs/external-projects/旧体系迁移项目样本；旧 shared 模板已汇总到 docs/templates/旧体系共享模板。"
+}

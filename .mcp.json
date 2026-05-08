@@ -1,0 +1,39 @@
+{
+  "mcpServers": {
+    "repo-analysis-filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "D:\\claude-code-sourcemap",
+        "D:\\claude-code"
+      ]
+    },
+    "docs-knowledge-filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "D:\\claude-code-sourcemap\\docs",
+        "D:\\claude-code-sourcemap\\.claude\\memory",
+        "D:\\claude-code-sourcemap\\.claude\\skills"
+      ]
+    },
+    "web-fetch": {
+      "command": "uvx",
+      "args": [
+        "mcp-server-fetch"
+      ]
+    },
+    "web-search-brave": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-brave-search"
+      ],
+      "env": {
+        "BRAVE_API_KEY": "${BRAVE_API_KEY}"
+      }
+    }
+  }
+}

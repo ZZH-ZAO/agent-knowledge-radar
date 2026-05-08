@@ -1,0 +1,82 @@
+{
+  "summary": {
+    "total": 12,
+    "errors": 0,
+    "warnings": 8,
+    "info": 4
+  },
+  "issues": [
+    {
+      "severity": "warning",
+      "kind": "project",
+      "target": "docs/external-projects/待分类项目池/d-claude-code-sourcemap.md",
+      "message": "项目没有关联方案，后续阅读时难以抽象成通用框架。"
+    },
+    {
+      "severity": "warning",
+      "kind": "project",
+      "target": "docs/external-projects/待分类项目池/d-claude-code-sourcemap.md",
+      "message": "项目没有行动项，容易停留在读书笔记。"
+    },
+    {
+      "severity": "info",
+      "kind": "solution",
+      "target": "docs/patterns/前端设计控制/frontend-workbench-style-patterns.md",
+      "message": "暂未发现项目明确引用该方案，可后续补关联。"
+    },
+    {
+      "severity": "info",
+      "kind": "solution",
+      "target": "docs/patterns/总纲与方法论/deep-distillation-writing-patterns.md",
+      "message": "暂未发现项目明确引用该方案，可后续补关联。"
+    },
+    {
+      "severity": "info",
+      "kind": "solution",
+      "target": "docs/patterns/总纲与方法论/分析回写草稿/local-apps-knowledge-platform-pattern-writeback.md",
+      "message": "暂未发现项目明确引用该方案，可后续补关联。"
+    },
+    {
+      "severity": "warning",
+      "kind": "doc",
+      "target": "docs/external-projects/待分类项目池/apps-knowledge-platform.md",
+      "message": "文档缺少行业痛点研究版补充。"
+    },
+    {
+      "severity": "warning",
+      "kind": "doc",
+      "target": "docs/external-projects/待分类项目池/coderamp-labs-gitingest.md",
+      "message": "文档缺少行业痛点研究版补充。"
+    },
+    {
+      "severity": "warning",
+      "kind": "doc",
+      "target": "docs/external-projects/待分类项目池/d-claude-code-sourcemap.md",
+      "message": "文档缺少行业痛点研究版补充。"
+    },
+    {
+      "severity": "warning",
+      "kind": "doc",
+      "target": "docs/platform/可视化知识平台规格/agent-platform-api-and-mcp-plan.md",
+      "message": "文档缺少行业痛点研究版补充。"
+    },
+    {
+      "severity": "warning",
+      "kind": "doc",
+      "target": "docs/platform/可视化知识平台规格/distill-desk-analysis-reader-note.md",
+      "message": "文档缺少行业痛点研究版补充。"
+    },
+    {
+      "severity": "info",
+      "kind": "doc",
+      "target": "docs/platform/可视化知识平台规格/distill-desk-analysis-reader-note.md",
+      "message": "文档没有显式行动项。"
+    },
+    {
+      "severity": "warning",
+      "kind": "doc",
+      "target": "docs/project-radar/candidates.md",
+      "message": "文档缺少行业痛点研究版补充。"
+    }
+  ]
+}

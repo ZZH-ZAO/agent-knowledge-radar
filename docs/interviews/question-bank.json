@@ -1,0 +1,200 @@
+{
+  "questionCount": 19,
+  "items": [
+    {
+      "id": "tencent-csig-self-intro",
+      "rawQuestion": "请先做一下自我介绍。",
+      "questionType": "开场表达",
+      "knowledgePoints": ["测试开发", "Python", "RAG", "项目主线"],
+      "relatedProjects": ["ai-testcase-rag", "safefood-platform"],
+      "relatedPatterns": ["productization", "observability"],
+      "recommendedAnswer": "用 30 秒讲身份和方向，60 秒讲两个项目。主线是：我做过 Python 后端和 AI 测试用例生成，重点能力不是只写接口或调模型，而是把业务风险、RAG 证据、结构化输出和自动化验证串成质量闭环。避免泛泛说会 Python、会 RAG。",
+      "followUps": ["为什么投测试开发？", "你的项目里最能体现测开能力的是哪一段？", "你和普通后端候选人的差异是什么？"]
+    },
+    {
+      "id": "rag-project-intro",
+      "rawQuestion": "介绍一下基于 PRD 文档生成测试用例系统。",
+      "questionType": "项目介绍",
+      "knowledgePoints": ["RAG", "结构化生成", "AI Critic", "bad case 回流"],
+      "relatedProjects": ["ai-testcase-rag", "legacy-cekai-auto-prd-test-agent"],
+      "relatedPatterns": ["tool-runtime", "observability", "memory-system"],
+      "recommendedAnswer": "不要罗列功能。先说它表面是 PRD 生成测试用例，真实难点是证据选择、稳定生成、质量评估和经验回流。再按三条链路讲：RAG 检索链路解决依据，JSON 结构化生成链路解决可消费，AI Critic 和 bad case 链路解决可评估与可迭代。",
+      "followUps": ["为什么不用整份 PRD 直接生成？", "RAG 具体怎么做？", "怎么证明生成质量提升？"]
+    },
+    {
+      "id": "rag-complete-pipeline",
+      "rawQuestion": "你这个项目里的 RAG 完整流程是什么？",
+      "questionType": "项目深挖",
+      "knowledgePoints": ["离线入库", "在线检索", "rerank", "证据注入"],
+      "relatedProjects": ["ai-testcase-rag", "legacy-agentset"],
+      "relatedPatterns": ["memory-system", "observability"],
+      "recommendedAnswer": "分离线和在线。离线做 PRD、规范、历史用例的加载、清洗、切片、metadata、embedding 和入库；在线先做 query rewrite，再向量召回 + BM25/关键词召回，合并去重后用语义相似度、关键词命中、逻辑密度、测试价值和噪音惩罚做 rerank，最后把 Top-K 证据分区注入 Prompt。",
+      "followUps": ["切片策略怎么设计？", "metadata 有哪些？", "Top-K 为什么这么选？"]
+    },
+    {
+      "id": "chunking-strategy",
+      "rawQuestion": "文档切片怎么设计？如果切出来的片段语义不完整怎么办？",
+      "questionType": "RAG 细节",
+      "knowledgePoints": ["chunk", "overlap", "metadata", "相邻片段回补"],
+      "relatedProjects": ["ai-testcase-rag"],
+      "relatedPatterns": ["memory-system"],
+      "recommendedAnswer": "不要说固定长度最好。测试用例生成更怕业务规则被切断，所以切片要贴近标题、换行、句号、表格行和规则边界，并保留 overlap。每个 chunk 带 source、section、chunk_id、前后相邻关系。命中片段明显依赖上下文时，组装阶段回补相邻 chunk，而不是盲目增大 chunk。",
+      "followUps": ["chunk 大小怎么取？", "chunk 小会不会丢上下文？", "表格和 PDF 怎么处理？"]
+    },
+    {
+      "id": "hybrid-retrieval",
+      "rawQuestion": "为什么要做混合检索？向量检索不够吗？",
+      "questionType": "RAG 细节",
+      "knowledgePoints": ["vector search", "BM25", "关键词召回", "规则词"],
+      "relatedProjects": ["ai-testcase-rag"],
+      "relatedPatterns": ["memory-system"],
+      "recommendedAnswer": "向量检索擅长语义相关，但测试生成很依赖精确规则，比如错误码、字段名、失败次数、超时时间。关键词/BM25 擅长抓这些路牌，但同义表达弱。我的做法是向量负责大方向，关键词负责关键规则，两路召回合并去重后再重排。",
+      "followUps": ["两路结果怎么融合？", "关键词怎么选？", "关键词规则会不会太死？"]
+    },
+    {
+      "id": "rerank-design",
+      "rawQuestion": "重排序怎么做？和 cross-encoder rerank 有什么区别？",
+      "questionType": "RAG 细节",
+      "knowledgePoints": ["rerank", "cross-encoder", "多因子打分", "可解释性"],
+      "relatedProjects": ["ai-testcase-rag"],
+      "relatedPatterns": ["observability"],
+      "recommendedAnswer": "我先用多因子 rerank，因为测试用例生成有强规则特征，显式打分更可解释。因子包括语义相似度、业务关键词命中、条件/边界/异常词密度、历史用例相似度、噪音惩罚。cross-encoder 理论上更强，但成本和延迟更高，解释性弱；后续可以作为高价值请求或离线评测的增强。",
+      "followUps": ["权重怎么定？", "怎么验证 rerank 有效果？", "召回失败和排序失败怎么区分？"]
+    },
+    {
+      "id": "rag-metrics",
+      "rawQuestion": "有测试过召回率和准确率吗？",
+      "questionType": "评估追问",
+      "knowledgePoints": ["Hit Rate", "Recall", "Precision", "MRR", "bad case"],
+      "relatedProjects": ["ai-testcase-rag", "legacy-giskard"],
+      "relatedPatterns": ["observability"],
+      "recommendedAnswer": "讲小规模 bad case 评估，不要装成大规模学术评测。可以说选 30 个典型 PRD 查询，人工标关键规则片段；看 Hit Rate、Recall、Precision、MRR。第一版向量检索 Top5 命中和准确率一般，加入 query rewrite、关键词补召回和多因子 rerank 后，Top20 召回和 Top5 准确率都有明显提升。",
+      "followUps": ["没有标准答案怎么评估？", "AI Critic 算不算可靠？", "怎么做回归？"]
+    },
+    {
+      "id": "generation-format-stability",
+      "rawQuestion": "生成模块如何保证输出格式稳定？",
+      "questionType": "工程稳定性",
+      "knowledgePoints": ["JSON Schema", "结构化输出", "解析兜底", "字段校验"],
+      "relatedProjects": ["ai-testcase-rag", "legacy-cekai-auto-prd-test-agent"],
+      "relatedPatterns": ["tool-runtime"],
+      "recommendedAnswer": "Prompt 里明确输出 JSON Schema 和字段含义，但不只靠 Prompt。工程层做多级解析：直接解析、提取代码块、定位对象/数组边界；解析后再做字段校验、枚举校验、必填校验和业务规则校验。格式不稳定时重试或返回可修复错误。",
+      "followUps": ["模型夹带解释怎么办？", "字段缺失怎么办？", "为什么不用纯自然语言？"]
+    },
+    {
+      "id": "ai-critic-evaluation",
+      "rawQuestion": "评估模块怎么做？LLM Judge 会不会不稳定？",
+      "questionType": "评估追问",
+      "knowledgePoints": ["LLM-as-a-Judge", "AI Critic", "覆盖率", "忠实度"],
+      "relatedProjects": ["ai-testcase-rag", "legacy-promptfoo", "legacy-giskard"],
+      "relatedPatterns": ["observability"],
+      "recommendedAnswer": "评估模型扮演 QA Lead，输入原始 PRD、RAG 证据、生成结果和可选标准用例，检查覆盖率、重复项、逻辑一致性、场景相关性和忠实度。它不是最终裁判，而是辅助质检员；关键样本需要人工确认，稳定后沉淀为 benchmark 和 bad case 回归集。",
+      "followUps": ["评估模型也错怎么办？", "评估结果怎么回流？", "promptfoo/giskard 这类工具能怎么用？"]
+    },
+    {
+      "id": "low-quality-prd",
+      "rawQuestion": "如果输入的 PRD 很短、不清楚，系统怎么处理？",
+      "questionType": "项目深挖",
+      "knowledgePoints": ["PRD 质检", "澄清问题", "拒答", "显式假设"],
+      "relatedProjects": ["ai-testcase-rag", "legacy-cekai-auto-prd-test-agent"],
+      "relatedPatterns": ["tool-runtime", "observability"],
+      "recommendedAnswer": "不会强行生成。先做 PRD 质检，检查角色、触发条件、业务规则、异常处理、边界值、状态流转是否缺失。信息不足就输出澄清问题或显式假设；只有证据足够时才生成。这样比偷偷脑补更符合测试开发对准确性的要求。",
+      "followUps": ["澄清问题怎么设计？", "什么时候拒答？", "如果业务方不补充怎么办？"]
+    },
+    {
+      "id": "feedback-memory",
+      "rawQuestion": "人工反馈回流机制怎么做？系统有没有长期记忆或自我进化？",
+      "questionType": "闭环追问",
+      "knowledgePoints": ["feedback loop", "bad case", "memory", "human-in-the-loop"],
+      "relatedProjects": ["ai-testcase-rag", "legacy-cekai-auto-prd-test-agent"],
+      "relatedPatterns": ["memory-system", "observability"],
+      "recommendedAnswer": "不要讲成泛泛 memory。反馈分成优质用例、驳回原因、规则修正、评估修正四类。只有人工确认过的优质用例回流历史库；bad case 和驳回原因进入失败集；规则修正进入规范库。下次生成检索相似历史经验，而不是把聊天记录原样塞回上下文。",
+      "followUps": ["如何避免错误反馈污染系统？", "长期记忆怎么压缩？", "能不能自动改 Prompt？"]
+    },
+    {
+      "id": "prompt-context-engineering",
+      "rawQuestion": "你做过哪些 Prompt 优化？Prompt Engineering 和 Context Engineering 有什么区别？",
+      "questionType": "AI 工程",
+      "knowledgePoints": ["Prompt", "Context Engineering", "上下文分区", "角色分工"],
+      "relatedProjects": ["ai-testcase-rag", "current-project"],
+      "relatedPatterns": ["agent-runtime", "memory-system"],
+      "recommendedAnswer": "Prompt 优化不是小技巧，主要是角色分工、上下文分区、输出结构和工程兜底。Prompt 解决模型应该怎么做，Context Engineering 解决这一轮模型应该看什么。项目里把用户需求、PRD、RAG 证据、历史用例和输出格式分区，避免规则、证据和用户意图混在一起。",
+      "followUps": ["为什么先分析再结论？", "Prompt 之外怎么兜底？", "AI coding 里怎么用这套方法？"]
+    },
+    {
+      "id": "agent-function-mcp",
+      "rawQuestion": "MCP、Function Calling、Tool Use、Agent 分别怎么理解？",
+      "questionType": "AI 工程",
+      "knowledgePoints": ["Agent", "Function Calling", "MCP", "Tool Runtime"],
+      "relatedProjects": ["current-project", "chromedevtools-chrome-devtools-mcp"],
+      "relatedPatterns": ["agent-runtime", "tool-runtime", "mcp-integration"],
+      "recommendedAnswer": "Function Calling 是动作契约，解决模型如何结构化提出工具调用；Tool Use 是模型通过外部工具获取信息或执行动作；MCP 是外部能力标准化接入协议，解决工具、资源、Prompt 如何被发现和接入；Agent 是受控任务推进循环，负责判断、行动、观察、再判断。",
+      "followUps": ["你的测试系统怎么接入工具？", "MCP 和普通 API wrapper 有什么区别？", "工具调用有哪些风险？"]
+    },
+    {
+      "id": "skills-understanding",
+      "rawQuestion": "有没有了解 Skills 类技术？放到你的项目里怎么用？",
+      "questionType": "AI 工程",
+      "knowledgePoints": ["Skills", "经验资产化", "工作流复用"],
+      "relatedProjects": ["current-project", "legacy-deer-flow"],
+      "relatedPatterns": ["plugin-system", "memory-system"],
+      "recommendedAnswer": "Skills 的价值是把经验资产化，不是每次重新写一大段提示词。测试项目里可以拆成 PRD 质检 Skill、测试用例生成 Skill、RAG 调优 Skill、AI Critic 评估 Skill、bad case 复盘 Skill。每个 Skill 包含输入要求、步骤、输出格式、验收标准和常见错误。",
+      "followUps": ["Skill 和 Prompt 有什么区别？", "Skill 怎么版本化？", "怎么防止 Skill 过时？"]
+    },
+    {
+      "id": "safefood-project-intro",
+      "rawQuestion": "介绍一下智慧食安多租户监管平台，以及你主要做了什么。",
+      "questionType": "项目介绍",
+      "knowledgePoints": ["FastAPI", "多租户", "状态机", "自动化测试", "质量风险"],
+      "relatedProjects": ["safefood-platform", "legacy-fault-diagnosis"],
+      "relatedPatterns": ["permission-sandbox", "observability", "productization"],
+      "recommendedAnswer": "按测试开发方向讲：这不是简单后台系统，而是复杂食品安全监管流程。我的价值是把多租户隔离、状态流转、台账追溯、视频鉴权、报表导出这些核心风险设计成可实现、可验证、可回归的链路，用 API 契约、状态机、审计、pytest 和场景化用例收住质量风险。",
+      "followUps": ["多租户隔离怎么做？", "怎么测状态机？", "你负责的是开发还是测试？"]
+    },
+    {
+      "id": "safefood-tenant-isolation",
+      "rawQuestion": "你们多租户隔离是怎么做和测试的？",
+      "questionType": "后端与测开",
+      "knowledgePoints": ["租户隔离", "权限", "ORM", "Raw SQL Guard", "越权测试"],
+      "relatedProjects": ["safefood-platform"],
+      "relatedPatterns": ["permission-sandbox", "observability"],
+      "recommendedAnswer": "按四层讲：请求上下文确定当前租户；业务层要求资源必须属于当前租户；ORM 层 TenantSession 自动填充和过滤 tenant_id；Raw SQL Guard 兜底阻止危险 SQL 漏租户条件。测试上要覆盖跨租户查询、更新、删除、导出、视频访问和原生 SQL 绕过。",
+      "followUps": ["如果业务代码漏写 tenant_id 怎么办？", "报表 SQL 怎么防串租户？", "缓存 key 怎么隔离？"]
+    },
+    {
+      "id": "testing-development-mainline",
+      "rawQuestion": "你怎么理解测试开发？你怎么做接口自动化？",
+      "questionType": "测开八股",
+      "knowledgePoints": ["测试左移", "接口自动化", "pytest", "断言", "质量闭环"],
+      "relatedProjects": ["safefood-platform", "ai-testcase-rag"],
+      "relatedPatterns": ["observability"],
+      "recommendedAnswer": "测试开发不是手工点页面，也不是只写脚本，而是把质量风险工程化。接口自动化要从需求和风险出发设计用例，不只断言 status_code，还要断言业务 code、响应字段、数据库副作用、权限边界、审计日志、Outbox 事件和缓存变化，并接入 CI 做回归。",
+      "followUps": ["什么用例适合自动化？", "pytest fixture 怎么用？", "如何保证自动化稳定性？"]
+    },
+    {
+      "id": "tcp-os-foundation",
+      "rawQuestion": "讲一下 TCP 三次握手、四次挥手，以及进程线程协程区别。",
+      "questionType": "计算机基础",
+      "knowledgePoints": ["TCP", "TIME_WAIT", "进程", "线程", "协程"],
+      "relatedProjects": ["legacy-computer-fundamentals"],
+      "relatedPatterns": [],
+      "recommendedAnswer": "基础题要短而准。三次握手讲双方收发能力确认和防历史 SYN；四次挥手讲全双工连接两个方向分别关闭，TIME_WAIT 保证最后 ACK 可重传并等待旧报文过期；进程是资源隔离单位，线程是调度执行单位，协程是用户态轻量调度，适合高并发 I/O，不适合替代 CPU 密集计算。",
+      "followUps": ["为什么不是两次握手？", "TIME_WAIT 太多怎么办？", "协程为什么切换成本低？"]
+    },
+    {
+      "id": "algorithm-recovery",
+      "rawQuestion": "现场写合并两个有序链表，没写顺时怎么补救？",
+      "questionType": "算法补救",
+      "knowledgePoints": ["链表", "双指针", "dummy node", "复盘表达"],
+      "relatedProjects": [],
+      "relatedPatterns": [],
+      "recommendedAnswer": "先说思路再写：用 dummy 节点和 cur 指针，比较 l1/l2 当前值，小的接到 cur 后面并移动对应链表，最后把剩余链表接上。若现场没写顺，复盘时说明自己会用 dummy 简化头节点处理，并补出复杂度 O(n+m)、空间 O(1)。",
+      "followUps": ["递归怎么写？", "为什么 dummy 能简化边界？", "链表题常见边界有哪些？"]
+    }
+  ],
+  "memory": {
+    "focus": "重点围绕腾讯 CSIG 一面、AI 测试用例生成系统、智慧食安多租户平台、RAG 工程化、测试开发岗位表达进行训练。",
+    "answerStyle": "先给结论和定位，再讲工程问题，再讲项目做法，再讲指标或证据，最后补 trade-off 和下一步。避免功能罗列，避免把 memory/self-evolution 讲玄。",
+    "weakSpots": ["项目主线容易散成 RAG、Prompt、评估的功能罗列", "RAG 细节容易被追问到权重、指标、失败定位", "评估模块要讲成人工确认下的辅助质检而不是万能裁判", "Agent/MCP/Skills 需要分层表达", "算法题需要固定模板和边界练习"]
+  }
+}

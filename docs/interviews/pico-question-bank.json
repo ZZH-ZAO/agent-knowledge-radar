@@ -1,0 +1,114 @@
+{
+  "items": [
+    {
+      "id": "pico-harness-vs-agent",
+      "rawQuestion": "为什么你的 pico 更适合叫 Agent Harness，而不只是一个 Agent？",
+      "questionType": "项目深挖",
+      "knowledgePoints": ["Agent Harness", "Agent Runtime", "工程定位", "项目表达"],
+      "relatedProjects": ["zzh-pico"],
+      "relatedPatterns": ["agent-runtime", "observability", "productization"],
+      "recommendedAnswer": "我更愿意把 pico 定义成面向本地代码仓库的 Agent Harness，而不是一个简单 Agent。因为它解决的重点不是单轮回答，而是把仓库上下文、模型决策、工具执行、结构化记忆、checkpoint 恢复、trace/report 和评测闭环串成受控运行时。Harness 这个词更能强调执行环境、边界治理和持续运行，比“会调模型的 CLI”更准确。",
+      "followUps": ["如果只叫 Agent，会漏掉哪些边界？", "Harness 和 workflow 有什么区别？", "为什么这个定位更适合拿去面试讲？"]
+    },
+    {
+      "id": "pico-context-reduction-design",
+      "rawQuestion": "你的 pico 为什么要做 context reduction？是怎么设计和验证的？",
+      "questionType": "项目深挖",
+      "knowledgePoints": ["Context Engineering", "Prompt Budget", "上下文裁剪", "指标验证"],
+      "relatedProjects": ["zzh-pico"],
+      "relatedPatterns": ["agent-runtime", "memory-system", "observability"],
+      "recommendedAnswer": "本地代码任务天然会把仓库信息、历史消息、工具结果和文件摘要越堆越多，所以真正会失控的是上下文预算。我做的不是简单删历史，而是把稳定前缀、工作区快照、任务上下文、记忆摘要和工具结果分层，并在 prompt 组装前做预算控制和按需加载。已有实验数据证明这个方向是有效的，比如平均 prompt 字符数从 6964 降到 5418，平均压缩率 18.01%，最大压缩率 35.63%。这说明 context reduction 不是 prompt 小技巧，而是 runtime 稳定性的基础设施。",
+      "followUps": ["你裁剪时最怕丢掉什么信息？", "Context Engineering 和 Prompt Engineering 在这里怎么区分？", "如果裁剪过度导致失败，你怎么定位？"]
+    },
+    {
+      "id": "pico-memory-architecture",
+      "rawQuestion": "你的 memory 为什么不是简单聊天历史？你是怎么分层设计的？",
+      "questionType": "项目深挖",
+      "knowledgePoints": ["Memory System", "Working Memory", "Durable Memory", "Freshness"],
+      "relatedProjects": ["zzh-pico"],
+      "relatedPatterns": ["memory-system", "agent-runtime", "observability"],
+      "recommendedAnswer": "我不会把 memory 讲成聊天记录持久化。聊天历史只能保留说过什么，不能保证当前工作状态仍然可信。pico 里我更强调分层和生命周期，至少拆成 session history、working memory、file summaries、episodic notes 和 durable memory，并且考虑 freshness、失效和按需召回。已有整理材料显示，结构化记忆让重复读取从 8 次降到 3 次，平均 tool steps 从 0.67 降到 0.25，任务准确率从 66.7% 提升到 100%。所以 memory 的价值是减少重复探索和错误动作，而不是让系统“记得更多话”。",
+      "followUps": ["什么时候写 memory，什么时候读 memory？", "file summary 为什么会过期？", "memory 和 RAG 的边界怎么讲？"]
+    },
+    {
+      "id": "pico-checkpoint-resume-design",
+      "rawQuestion": "你为什么做 checkpoint / resume？它和保存 session history 有什么区别？",
+      "questionType": "项目深挖",
+      "knowledgePoints": ["Checkpoint", "Resume", "Session State", "可信恢复"],
+      "relatedProjects": ["zzh-pico"],
+      "relatedPatterns": ["agent-runtime", "memory-system", "observability"],
+      "recommendedAnswer": "保存 session history 只能回放对话，不能恢复可信工作状态。真正恢复要回答的是：当前任务目标是否还有效、关键文件是否变了、workspace 还是不是同一个现场、provider 和 runtime identity 是否一致、之前的运行工件还能不能接上。所以我做 checkpoint / resume，本质是在恢复任务状态，而不是恢复聊天文本。这也是为什么 pico 会把 task_state、trace、report 和 workspace mismatch detection 放进同一套运行语义里。",
+      "followUps": ["恢复时最危险的失真是什么？", "如果文件被人手工改过怎么办？", "为什么 resume 是 Agent Runtime 的标志性能力？"]
+    },
+    {
+      "id": "pico-tool-governance",
+      "rawQuestion": "你的 tool runtime 是怎么做安全治理和审批边界的？",
+      "questionType": "项目深挖",
+      "knowledgePoints": ["Tool Runtime", "Approval", "Path Escape", "风险治理"],
+      "relatedProjects": ["zzh-pico"],
+      "relatedPatterns": ["tool-runtime", "permission-sandbox", "observability"],
+      "recommendedAnswer": "工具接入后的核心难点不是 schema，而是副作用治理。文件写入、patch 和 shell 一旦进入真实仓库，就必须处理参数校验、路径越界、风险动作审批、失败解释和结果审计。pico 的做法是显式工具注册、参数校验、风险动作分类、路径边界检查，以及更严格的 patch 约束。已有整理材料里记录了 11 个真实治理场景、3 次路径逃逸拦截、2 次无效参数拒绝和 2 次重复工具调用拦截，这些证据能说明项目已经开始做治理，而不只是会调函数。",
+      "followUps": ["为什么 patch 要做严格约束？", "高风险动作什么时候必须人工确认？", "怎么让工具失败变得可解释？"]
+    },
+    {
+      "id": "pico-trace-report-benchmark",
+      "rawQuestion": "你怎么证明 pico 不是 demo，而是能被验证和回归的系统？",
+      "questionType": "项目深挖",
+      "knowledgePoints": ["Trace", "Report", "Benchmark", "Regression"],
+      "relatedProjects": ["zzh-pico"],
+      "relatedPatterns": ["observability", "agent-runtime", "productization"],
+      "recommendedAnswer": "我会拿三层证据。第一层是结构证据：项目已经拆成 runtime、tools、workspace、memory、run_store、evaluator、metrics 等模块。第二层是运行证据：每次执行都会落盘 session、task_state、trace 和 report，而不是只在终端里闪过。第三层是验证证据：有固定 benchmark、标准化任务和自动化测试，并记录 pass rate、attempts、tool_steps 等指标。这样我讲的就不是“我觉得它能跑”，而是“我能回放、能比较、能回归”。",
+      "followUps": ["过程指标和结果指标分别看什么？", "为什么 trace 比聊天记录更重要？", "如果 benchmark 提分但真实体验下降，你怎么判断？"]
+    },
+    {
+      "id": "pico-prompt-vs-context-engineering",
+      "rawQuestion": "在 pico 里，Prompt Engineering 和 Context Engineering 分别解决什么问题？",
+      "questionType": "AI 工程",
+      "knowledgePoints": ["Prompt Engineering", "Context Engineering", "Runtime Design", "任务分层"],
+      "relatedProjects": ["zzh-pico"],
+      "relatedPatterns": ["agent-runtime", "memory-system", "tool-runtime"],
+      "recommendedAnswer": "Prompt Engineering 解决的是模型应该怎么做，比如角色、输出格式、工具使用约束和回答结构；Context Engineering 解决的是这一轮到底应该让模型看到什么，比如仓库快照、最近改动、任务历史、记忆摘要和工具结果。对 pico 这种本地代码 Agent 来说，真正更难的是后者，因为上下文一旦失控，模型再聪明也会贵、慢、脏、容易偏。所以我把更多精力放在上下文分层、裁剪、预算控制和恢复一致性上，而不只是润色提示词。",
+      "followUps": ["为什么说行业主线正在从 prompt 转向 harness？", "如果 prompt 很好但 context 很差，会发生什么？", "这两者在工程上怎么配合？"]
+    },
+    {
+      "id": "pico-provider-abstraction",
+      "rawQuestion": "你为什么要做 provider abstraction？多模型接入在 pico 里最大的工程意义是什么？",
+      "questionType": "系统设计",
+      "knowledgePoints": ["Provider Abstraction", "Model Adapter", "Runtime Purity", "多模型实验"],
+      "relatedProjects": ["zzh-pico"],
+      "relatedPatterns": ["provider-abstraction", "agent-runtime", "observability"],
+      "recommendedAnswer": "我做 provider abstraction，不是为了凑支持列表，而是为了保护 runtime 不被模型厂商差异污染。CLI 可以负责选 provider，但运行时最好只依赖统一的 complete 语义，把不同 API、消息格式、能力差异和错误格式尽量收口在 adapter 层。这样做的意义有两个：第一，runtime 的核心逻辑更稳定；第二，多模型实验才有可比性。这样模型比较会变成工程实验，而不是业务代码里到处散落的分支。",
+      "followUps": ["如果不同 provider 的 tool calling 能力差异很大怎么办？", "为什么 adapter 比直接 if/else 分支更重要？", "多模型评估最容易犯什么错？"]
+    },
+    {
+      "id": "pico-context-reduction-order",
+      "rawQuestion": "你为什么把 context reduction 的牺牲顺序设计成 relevant_memory -> history -> memory -> prefix？为什么当前用户请求永远不裁？",
+      "questionType": "项目深挖",
+      "knowledgePoints": ["Context Reduction", "Prompt Budget", "信息优先级", "产品判断"],
+      "relatedProjects": ["zzh-pico"],
+      "relatedPatterns": ["agent-runtime", "memory-system", "observability"],
+      "recommendedAnswer": "这个顺序本质上不是技术细节，而是信息优先级判断。我把当前用户请求视为本轮最不可丢的输入，所以它永远不裁。relevant_memory 先裁，是因为它本质是辅助召回，丢掉后还有机会通过文件或工具重新补证据；history 再裁，是因为较老的对话和工具输出最容易压缩；memory 更靠后，是因为里面已经是工作摘要；prefix 最后才动，因为它承载的是稳定规则和运行约束。也就是说，我不是按 section 名字裁，而是按“可补回性”和“稳定性”裁。",
+      "followUps": ["如果 relevant memory 被裁掉后误伤了正确率怎么办？", "为什么不是先裁 history 再裁 relevant memory？", "这个顺序以后会不会根据任务类型动态调整？"]
+    },
+    {
+      "id": "pico-patch-file-tradeoff",
+      "rawQuestion": "为什么你的 patch_file 要求 old_text 非空、new_text 必填、而且 old_text 只能精确命中一次？这不是太保守了吗？",
+      "questionType": "项目深挖",
+      "knowledgePoints": ["Patch Strategy", "Determinism", "Failure Explainability", "Risk Control"],
+      "relatedProjects": ["zzh-pico"],
+      "relatedPatterns": ["tool-runtime", "permission-sandbox", "agent-runtime"],
+      "recommendedAnswer": "这是我故意做的保守取舍。真实仓库里，修改失败不可怕，可怕的是模型以为自己改对了，结果命中了错误位置，或者改出了不可解释的副作用。所以我宁愿牺牲一点灵活性，也要优先保证确定性、失败可解释性和审计友好性。要求 old_text 精确且唯一命中，可以把失败原因收敛成非常清楚的几类：内容不存在、命中过多、参数不完整。这样 tool runtime 更容易治理，用户也更容易信任系统。",
+      "followUps": ["如果未来要支持模糊 patch，你会怎么加而不破坏现有安全性？", "为什么这个问题本质上属于 tool governance 而不只是编辑功能？", "严格 patch 对体验的代价你怎么平衡？"]
+    },
+    {
+      "id": "pico-metrics-vs-pass-rate",
+      "rawQuestion": "为什么你在 metrics 里不只看 pass rate，还要看 attempts、tool steps、cache hit、prefix reuse 和 duration？",
+      "questionType": "项目深挖",
+      "knowledgePoints": ["Metrics", "Benchmark", "Cost Signals", "Runtime Evaluation"],
+      "relatedProjects": ["zzh-pico"],
+      "relatedPatterns": ["observability", "agent-runtime", "productization"],
+      "recommendedAnswer": "因为 pass rate 只能回答结果有没有过，但不能回答代价是不是变差了。一个 Agent 完成任务时，可能通过更多 attempts、更长 prompt、更多 tool steps 才勉强过关，这对真实产品未必是好事。所以我会把 attempts、tool steps、cache hit、prefix reuse、duration 和 security event 一起纳入指标。这样评估语义才完整，既能看效果，也能看成本、稳定性和风险。",
+      "followUps": ["如果 pass rate 提高但 attempts 也明显上升，你怎么判断？", "cache hit 和 prefix reuse 对平台化为什么重要？", "哪些指标最适合直接展示到前端平台里？"]
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "id": "2026-04-28-browser-harness-analysis",
+  "created_at": "2026-04-28T17:20:00+08:00",
+  "project": "browser-harness",
+  "task_type": "analysis",
+  "title": "browser-harness thin browser substrate case study and web-based intake",
+  "summary": "Attempted to clone browser-harness to D:\\browser-harness but GitHub connectivity to github.com:443 failed, so the case was archived through GitHub web analysis instead. The workbench now records browser-harness as a thin CDP-first browser execution substrate case with reusable lessons around interaction-vs-domain skill separation, editable helper growth, and verification after browser side effects.",
+  "keywords": [
+    "tool-runtime",
+    "runtime-first",
+    "browser-control",
+    "browser-harness",
+    "cdp",
+    "interaction-skills",
+    "domain-skills",
+    "substrate"
+  ],
+  "related_cases": [
+    "deer-flow",
+    "hermes-agent",
+    "awesome-ai-research-writing"
+  ],
+  "source_paths": [
+    "https://github.com/browser-use/browser-harness",
+    "https://github.com/browser-use/browser-harness/blob/main/README.md",
+    "https://raw.githubusercontent.com/browser-use/browser-harness/main/README.md"
+  ],
+  "derived_docs": [
+    "D:\\claude-code-sourcemap\\.claude\\docs\\user\\browser-harness\\README.md",
+    "D:\\claude-code-sourcemap\\.claude\\docs\\user\\browser-harness\\analysis.md",
+    "D:\\claude-code-sourcemap\\.claude\\docs\\user\\browser-harness\\what-to-borrow-for-this-workbench.md",
+    "D:\\claude-code-sourcemap\\.claude\\docs\\agent\\browser-harness\\analysis-condensed.md"
+  ],
+  "phase_report": "D:\\claude-code-sourcemap\\.claude\\docs\\user\\claude-code-sourcemap\\workbench-development-report.md",
+  "promotion_review": {
+    "skills_checked": true,
+    "memory_checked": true,
+    "docs_checked": true,
+    "decision": "This case did not justify a new stable memory rule or a direct skill-body rewrite, but it did justify archiving browser-harness as a first-class thin browser substrate reference and extending case-advice metadata so future browser-harness questions can retrieve it with clearer evidence."
+  },
+  "skill_promotions": [
+    "Expanded case-advice metadata so browser-control, CDP, harness, and interaction-vs-domain skill questions can retrieve this case more directly"
+  ],
+  "doc_promotions": [
+    "Added browser-harness as a first-class thin browser substrate case in the shared case library index"
+  ],
+  "followup_actions": [
+    {
+      "action": "Retry a local clone and perform a source-code-deep pass when GitHub connectivity to github.com:443 is available again",
+      "status": "pending",
+      "owner": "workbench",
+      "notes": "The current archive is good enough for design borrowing, but a later code-level pass would strengthen implementation-specific lessons."
+    }
+  ],
+  "status": "completed"
+}

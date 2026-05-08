@@ -1,0 +1,153 @@
+{
+  "items": [
+    {
+      "id": "analysis-anthropics-claude-code-intro",
+      "rawQuestion": "如果让你用一两分钟介绍 Anthropics/claude-code，你会怎么讲？",
+      "questionType": "项目介绍版",
+      "knowledgePoints": [
+        "Anthropics/claude-code",
+        "agent-runtime",
+        "tool-runtime",
+        "mcp-integration",
+        "memory-system",
+        "permission-sandbox",
+        "observability-patterns",
+        "productization-patterns",
+        "runtime-recovery-and-eval-gap",
+        "tool-result-context-overload",
+        "mcp-ecosystem-governance",
+        "memory-context-staleness-and-bloat",
+        "agent-productization-gap"
+      ],
+      "relatedProjects": [
+        "anthropics-claude-code"
+      ],
+      "relatedPatterns": [
+        "agent-runtime",
+        "tool-runtime",
+        "mcp-integration",
+        "memory-system",
+        "permission-sandbox",
+        "observability-patterns",
+        "productization-patterns"
+      ],
+      "recommendedAnswer": "我会先把它定义成：Claude Code ? Coding Agent ??????????????。然后讲它为什么值得现在看：????????????????????????????????。最后落到真实业务场景 ??????????????????，说明它不是功能堆砌，而是在回答 Agent ????????????????????? 这类工程问题。",
+      "followUps": [
+        "这个项目最适合的业务场景是什么？??????????????????",
+        "如果只保留一个最大亮点，你会保留什么？?? terminal runtime?settings?hooks?MCP?subagents ? skills ????"
+      ]
+    },
+    {
+      "id": "analysis-anthropics-claude-code-deep-dive",
+      "rawQuestion": "Anthropics/claude-code 具体是怎么把这些能力做进去的，而不是只停留在概念上？",
+      "questionType": "深挖版",
+      "knowledgePoints": [
+        "Anthropics/claude-code",
+        "agent-runtime",
+        "tool-runtime",
+        "mcp-integration",
+        "memory-system",
+        "permission-sandbox",
+        "observability-patterns",
+        "productization-patterns",
+        "runtime-recovery-and-eval-gap",
+        "tool-result-context-overload",
+        "mcp-ecosystem-governance",
+        "memory-context-staleness-and-bloat",
+        "agent-productization-gap"
+      ],
+      "relatedProjects": [
+        "anthropics-claude-code"
+      ],
+      "relatedPatterns": [
+        "agent-runtime",
+        "tool-runtime",
+        "mcp-integration",
+        "memory-system",
+        "permission-sandbox",
+        "observability-patterns",
+        "productization-patterns"
+      ],
+      "recommendedAnswer": "不要只说它有什么功能，要按步骤讲：先回答通用问题 Agent ?????????????????????，再说项目里的具体做法 ?? terminal runtime?settings?hooks?MCP?subagents ? skills ????，最后补上它为什么能成立的设计原则 ?????????????????。",
+      "followUps": [
+        "如果你照着做，第一步会先补哪一层？?????????? Tool Runtime?MCP Integration ? Productization ????",
+        "这个项目里哪一部分最像真正的 runtime，而不是 demo？"
+      ]
+    },
+    {
+      "id": "analysis-anthropics-claude-code-tradeoff",
+      "rawQuestion": "Anthropics/claude-code 这种做法的代价和边界是什么？",
+      "questionType": "trade-off 版",
+      "knowledgePoints": [
+        "Anthropics/claude-code",
+        "agent-runtime",
+        "tool-runtime",
+        "mcp-integration",
+        "memory-system",
+        "permission-sandbox",
+        "observability-patterns",
+        "productization-patterns",
+        "runtime-recovery-and-eval-gap",
+        "tool-result-context-overload",
+        "mcp-ecosystem-governance",
+        "memory-context-staleness-and-bloat",
+        "agent-productization-gap"
+      ],
+      "relatedProjects": [
+        "anthropics-claude-code"
+      ],
+      "relatedPatterns": [
+        "agent-runtime",
+        "tool-runtime",
+        "mcp-integration",
+        "memory-system",
+        "permission-sandbox",
+        "observability-patterns",
+        "productization-patterns"
+      ],
+      "recommendedAnswer": "我会先承认它不是零成本方案。它的价值在于把 Agent ????????????????????? 这类问题收进工程结构里，但代价通常是接入成本、治理成本和更多显式规则。真正该讲清楚的是：为什么这个代价在当前场景下值得付。",
+      "followUps": [
+        "什么场景下你不会照搬它？",
+        "如果要做轻量版，你会砍掉哪一层，保留哪一层？"
+      ]
+    },
+    {
+      "id": "analysis-anthropics-claude-code-pain-point",
+      "rawQuestion": "Anthropics/claude-code 对行业里的普遍痛点给了什么证据和启发？",
+      "questionType": "行业痛点版",
+      "knowledgePoints": [
+        "Anthropics/claude-code",
+        "agent-runtime",
+        "tool-runtime",
+        "mcp-integration",
+        "memory-system",
+        "permission-sandbox",
+        "observability-patterns",
+        "productization-patterns",
+        "runtime-recovery-and-eval-gap",
+        "tool-result-context-overload",
+        "mcp-ecosystem-governance",
+        "memory-context-staleness-and-bloat",
+        "agent-productization-gap"
+      ],
+      "relatedProjects": [
+        "anthropics-claude-code"
+      ],
+      "relatedPatterns": [
+        "agent-runtime",
+        "tool-runtime",
+        "mcp-integration",
+        "memory-system",
+        "permission-sandbox",
+        "observability-patterns",
+        "productization-patterns"
+      ],
+      "recommendedAnswer": "我不会把它讲成单项目功能，而会把它当成行业证据：它说明 Agent ????????????????????? 不是抽象讨论，而是现实系统必须处理的主线。它给出的具体做法是 ?? terminal runtime?settings?hooks?MCP?subagents ? skills ????，对我当前项目最直接的动作是 ?????????? Tool Runtime?MCP Integration ? Productization ????。",
+      "followUps": [
+        "它补强了哪些 pain points？runtime-recovery-and-eval-gap, tool-result-context-overload, mcp-ecosystem-governance, memory-context-staleness-and-bloat, agent-productization-gap",
+        "除了这个项目，还有哪些样本能互相印证？"
+      ]
+    }
+  ],
+  "questionCount": 4
+}

@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+.vite/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Temporary files
+tmp/
+tmp_ppt_style_inspect/
+
+# Logs
+vite-dev.log
+vite-dev.err.log
+
+# TypeScript build info
+tsconfig.tsbuildinfo
+
+# npm tarballs
+*.tgz
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Restored Claude Code source and npm package (not part of this project)
+restored-src/
+package/
+
+# IDE
+.vscode/
+.idea/

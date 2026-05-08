@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "description": "Lightweight index for workbench historical session records.",
+  "entries": [
+    {
+      "id": "2026-04-28-browser-harness-analysis",
+      "created_at": "2026-04-28T17:20:00+08:00",
+      "project": "browser-harness",
+      "task_type": "analysis",
+      "title": "browser-harness thin browser substrate case study and web-based intake",
+      "summary": "Attempted to clone browser-harness to D:\\browser-harness but GitHub connectivity to github.com:443 failed, so the case was archived through GitHub web analysis instead. The workbench now records browser-harness as a thin CDP-first browser execution substrate case with reusable lessons around interaction-vs-domain skill separation, editable helper growth, and verification after browser side effects.",
+      "entry_path": "D:\\claude-code-sourcemap\\.claude\\sessions\\entries\\2026-04-28-browser-harness-analysis.json",
+      "status": "completed",
+      "keywords": [
+        "tool-runtime",
+        "runtime-first",
+        "browser-control",
+        "browser-harness",
+        "cdp",
+        "interaction-skills",
+        "domain-skills",
+        "substrate"
+      ],
+      "related_cases": [
+        "deer-flow",
+        "hermes-agent",
+        "awesome-ai-research-writing"
+      ],
+      "source_paths": [
+        "https://github.com/browser-use/browser-harness",
+        "https://github.com/browser-use/browser-harness/blob/main/README.md",
+        "https://raw.githubusercontent.com/browser-use/browser-harness/main/README.md"
+      ],
+      "derived_docs": [
+        "D:\\claude-code-sourcemap\\.claude\\docs\\user\\browser-harness\\README.md",
+        "D:\\claude-code-sourcemap\\.claude\\docs\\user\\browser-harness\\analysis.md",
+        "D:\\claude-code-sourcemap\\.claude\\docs\\user\\browser-harness\\what-to-borrow-for-this-workbench.md",
+        "D:\\claude-code-sourcemap\\.claude\\docs\\agent\\browser-harness\\analysis-condensed.md"
+      ],
+      "skill_promotions": [
+        "Expanded case-advice metadata so browser-control, CDP, harness, and interaction-vs-domain skill questions can retrieve this case more directly"
+      ],
+      "doc_promotions": [
+        "Added browser-harness as a first-class thin browser substrate case in the shared case library index"
+      ],
+      "followup_actions": [
+        {
+          "action": "Retry a local clone and perform a source-code-deep pass when GitHub connectivity to github.com:443 is available again",
+          "status": "pending",
+          "owner": "workbench",
+          "notes": "The current archive is good enough for design borrowing, but a later code-level pass would strengthen implementation-specific lessons."
+        }
+      ],
+      "phase_report": "D:\\claude-code-sourcemap\\.claude\\docs\\user\\claude-code-sourcemap\\workbench-development-report.md",
+      "promotion_review": {
+        "skills_checked": true,
+        "memory_checked": true,
+        "docs_checked": true,
+        "decision": "This case did not justify a new stable memory rule or a direct skill-body rewrite, but it did justify archiving browser-harness as a first-class thin browser substrate reference and extending case-advice metadata so future browser-harness questions can retrieve it with clearer evidence."
+      }
+    },
+    {
+      "id": "2026-04-27-awesome-ai-research-writing-analysis",
+      "created_at": "2026-04-27T00:00:00+08:00",
+      "project": "awesome-ai-research-writing",
+      "task_type": "analysis",
+      "title": "awesome-ai-research-writing knowledge-asset case study and workbench intake",
+      "summary": "Cloned awesome-ai-research-writing to D:\\awesome-ai-research-writing, analyzed it as a research-writing prompt and skill knowledge asset rather than a runtime Agent system, added case docs plus a workbench borrowing note, and expanded the workbench to treat knowledge-product repositories as first-class reference cases.",
+      "entry_path": "D:\\claude-code-sourcemap\\.claude\\sessions\\entries\\2026-04-27-awesome-ai-research-writing-analysis.json",
+      "status": "completed",
+      "keywords": [
+        "team-knowledge",
+        "research-writing",
+        "prompt-library",
+        "skills-adoption",
+        "knowledge-asset",
+        "workflow-packaging"
+      ],
+      "related_cases": [
+        "awesome-design-md",
+        "hermes-agent",
+        "career-ops"
+      ],
+      "source_paths": [
+        "D:\\awesome-ai-research-writing\\README.md",
+        "D:\\awesome-ai-research-writing\\images\\example.png",
+        "D:\\awesome-ai-research-writing\\images\\model-rank.png"
+      ],
+      "derived_docs": [
+        "D:\\claude-code-sourcemap\\.claude\\docs\\user\\awesome-ai-research-writing\\README.md",
+        "D:\\claude-code-sourcemap\\.claude\\docs\\user\\awesome-ai-research-writing\\analysis.md",
+        "D:\\claude-code-sourcemap\\.claude\\docs\\user\\awesome-ai-research-writing\\research-writing-skill-cheatsheet-zh.md",
+        "D:\\claude-code-sourcemap\\.claude\\docs\\user\\awesome-ai-research-writing\\research-writing-starter-templates-zh.md",
+        "D:\\claude-code-sourcemap\\.claude\\docs\\user\\awesome-ai-research-writing\\what-to-borrow-for-this-workbench.md",
+        "D:\\claude-code-sourcemap\\.claude\\docs\\agent\\awesome-ai-research-writing\\analysis-condensed.md"
+      ],
+      "skill_promotions": [
+        "Added a dedicated research-writing task router that maps natural-language writing requests to prompt and skill paths"
+      ],
+      "doc_promotions": [
+        "Added awesome-ai-research-writing as a first-class knowledge-asset case in the shared case library index"
+      ],
+      "followup_actions": [
+        {
+          "action": "Consider adding a dedicated knowledge-asset routing template if more prompt-library and skill-onboarding repositories are archived",
+          "status": "pending",
+          "owner": "workbench",
+          "notes": "One case is enough to justify the category, but not yet enough to finalize a richer reusable template."
+        }
+      ],
+      "phase_report": "D:\\claude-code-sourcemap\\.claude\\docs\\user\\claude-code-sourcemap\\workbench-development-report.md",
+      "promotion_review": {
+        "skills_checked": true,
+        "memory_checked": true,
+        "docs_checked": true,
+        "decision": "This case mainly expanded the reusable documentation and routing coverage of the case library. It did not require a new stable memory rule or a direct skill-body rewrite, but it did justify explicit case-library and advisor updates for knowledge-asset style repositories."
+      }
+    },
+    {
+      "id": "2026-04-22-hermes-agent-analysis",
+      "created_at": "2026-04-22T21:30:00+08:00",
+      "project": "hermes-agent",
+      "task_type": "analysis",
+      "title": "Initial Hermes Agent case study and workbench borrowing analysis",
+      "summary": "Cloned Hermes Agent to D:\\hermes-agent, analyzed it as a long-running and memory-first agent workbench, added user and agent case docs, added comparison docs against deer-flow and claude-code, and extracted the most valuable ideas for upgrading the current workbench.",
+      "entry_path": "D:\\claude-code-sourcemap\\.claude\\sessions\\entries\\2026-04-22-hermes-agent-analysis.json",
+      "status": "completed",
+      "keywords": [
+        "long-running-agent",
+        "memory-first",
+        "workbench",
+        "skills",
+        "session-search",
+        "mcp"
+      ],
+      "related_cases": [
+        "deer-flow",
+        "claude-code"
+      ],
+      "source_paths": [
+        "D:\\hermes-agent\\README.md",
+        "D:\\hermes-agent\\run_agent.py",
+        "D:\\hermes-agent\\gateway\\run.py",
+        "D:\\hermes-agent\\hermes_state.py",
+        "D:\\hermes-agent\\agent\\memory_manager.py",
+        "D:\\hermes-agent\\tools\\delegate_tool.py",
+        "D:\\hermes-agent\\tools\\mcp_tool.py",
+        "D:\\hermes-agent\\cron\\scheduler.py",
+        "D:\\hermes-agent\\hermes_cli\\skills_hub.py"
+      ],
+      "derived_docs": [
+        "D:\\claude-code-sourcemap\\.claude\\docs\\user\\hermes-agent\\analysis.md",
+        "D:\\claude-code-sourcemap\\.claude\\docs\\user\\hermes-agent\\vs-deer-flow-vs-claude-code.md",
+        "D:\\claude-code-sourcemap\\.claude\\docs\\user\\hermes-agent\\what-to-borrow-for-this-workbench.md",
+        "D:\\claude-code-sourcemap\\.claude\\docs\\user\\hermes-agent\\workbench-upgrade-plan.md",
+        "D:\\claude-code-sourcemap\\.claude\\docs\\agent\\hermes-agent\\analysis-condensed.md"
+      ],
+      "skill_promotions": [
+        "Promoted Hermes-derived workbench lessons into autonomous-delivery-default and the 4 core Agent research skills"
+      ],
+      "memory_promotions": [
+        "Promoted stable workbench rule that new information should enter sessions first",
+        "Promoted stable autonomous execution preference with phase reporting and evidence tracking"
+      ],
+      "doc_promotions": [
+        "Created shared development phase report template",
+        "Added workbench development report to track implementation phases"
+      ],
+      "followup_actions": [
+        {
+          "action": "Continue connecting session workflow to skill and memory feedback checks",
+          "status": "pending",
+          "owner": "workbench",
+          "notes": "The workflow now records promotions, but future sessions still need stronger default checks and automation."
+        }
+      ],
+      "phase_report": "D:\\claude-code-sourcemap\\.claude\\docs\\user\\claude-code-sourcemap\\workbench-development-report.md",
+      "promotion_review": {
+        "skills_checked": true,
+        "memory_checked": true,
+        "docs_checked": true,
+        "decision": "This session promoted reusable methods into skills, durable rules into memory, and shared artifacts into docs, so all three promotion paths were explicitly checked and recorded."
+      }
+    }
+  ]
+}

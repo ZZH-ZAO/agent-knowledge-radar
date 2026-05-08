@@ -1,0 +1,83 @@
+{
+  "default_topics": {
+    "agent-runtime": [
+      "agent runtime",
+      "coding agent",
+      "developer agent",
+      "llm tools",
+      "tool calling",
+      "mcp",
+      "multi-agent",
+      "context engineering",
+      "prompt engineering"
+    ],
+    "mcp": [
+      "mcp server",
+      "mcp client",
+      "model context protocol",
+      "agent tools"
+    ],
+    "ai-devtools": [
+      "ai devtools",
+      "coding agent",
+      "llm developer tools",
+      "code assistant"
+    ],
+    "frontend-style": [
+      "dashboard",
+      "admin",
+      "shadcn",
+      "tremor",
+      "blocks",
+      "ui kit",
+      "design system",
+      "tailwind",
+      "motion primitives"
+    ]
+  },
+  "scoring": {
+    "relevance": 0.3,
+    "engineering_quality": 0.25,
+    "learning_value": 0.2,
+    "activity": 0.15,
+    "novelty": 0.1
+  },
+  "thresholds": {
+    "must_distill": 85,
+    "worth_distill": 70,
+    "brief_card": 55
+  },
+  "priority_keywords": [
+    "agent",
+    "agents",
+    "coding agent",
+    "mcp",
+    "model context protocol",
+    "tool calling",
+    "tool use",
+    "memory",
+    "prompt",
+    "context engineering",
+    "multi-agent",
+    "sandbox",
+    "plugin",
+    "observability",
+    "devtools",
+    "llm",
+    "frontend",
+    "ui",
+    "mockup",
+    "design",
+    "image generation",
+    "gpt-image-2",
+    "gpt image 2",
+    "screenshot",
+    "dashboard",
+    "admin",
+    "shadcn",
+    "tremor",
+    "blocks",
+    "tailwind",
+    "motion"
+  ]
+}
