@@ -16,10 +16,12 @@ import re
 import subprocess
 import sys
 from datetime import datetime
-from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
-from urllib.parse import urlparse
+
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -1089,114 +1091,96 @@ def build_analysis_writeback(payload: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-class BridgeHandler(BaseHTTPRequestHandler):
-    server_version = "KnowledgePlatformBridge/1.0"
+app = FastAPI(
+    title="Knowledge Platform Bridge",
+    description="Local bridge server for the knowledge platform — ingest, analyze, and distill projects.",
+    version="2.0.0",
+)
 
-    def do_OPTIONS(self) -> None:  # noqa: N802
-        self.send_response(204)
-        self._send_cors_headers()
-        self.end_headers()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Content-Type"],
+)
 
-    def do_GET(self) -> None:  # noqa: N802
-        parsed = urlparse(self.path)
-        if parsed.path == "/health":
-            self._send_json(
-                200,
-                {
-                    "status": "ok",
-                    "service": "knowledge-platform-bridge",
-                    "time": now_text(),
-                    "port": self.server.server_address[1],
-                },
-            )
-            return
-        self._send_json(404, {"status": "error", "message": "Not found"})
 
-    def do_POST(self) -> None:  # noqa: N802
-        parsed = urlparse(self.path)
-        try:
-            payload = self._read_json()
-            if parsed.path == "/api/distill":
-                result = handle_distill(payload)
-                self._send_json(200, result)
-                return
-            if parsed.path == "/api/ingest-repo":
-                result = run_ingest(payload)
-                preview = {
-                    "summary": (result.get("summary") or "")[:1200],
-                    "tree": (result.get("tree") or "")[:2000],
-                }
-                self._send_json(
-                    200,
-                    {
-                        "status": "ok",
-                        "message": "仓库理解完成",
-                        "source": result.get("source"),
-                        "ingestSource": result.get("ingest_source"),
-                        "outputFile": result.get("output_file"),
-                        "summaryLength": result.get("summary_length"),
-                        "treeLength": result.get("tree_length"),
-                        "contentLength": result.get("content_length"),
-                        "preview": preview,
-                    },
-                )
-                return
-            if parsed.path == "/api/analyze-project":
-                result = handle_analyze_project(payload)
-                self._send_json(200, result)
-                return
-            if parsed.path == "/api/writeback-analysis":
-                result = build_analysis_writeback(payload)
-                self._send_json(200, result)
-                return
-            self._send_json(404, {"status": "error", "message": "Not found"})
-        except ValueError as exc:
-            self._send_json(400, {"status": "error", "message": str(exc)})
-        except RuntimeError as exc:
-            self._send_json(500, {"status": "error", "message": str(exc)})
-        except Exception as exc:  # noqa: BLE001
-            self._send_json(500, {"status": "error", "message": str(exc)})
+class Payload(BaseModel):
+    """Generic payload for all POST endpoints."""
+    source: str = ""
+    sourceType: str = "github"
+    goal: str = ""
+    style: str = ""
+    outputs: list[str] = []
+    extraNotes: str = ""
+    useGitingest: bool = False
+    ingestFocus: str = ""
+    autoWriteback: bool = True
+    include: list[str] = []
+    exclude: list[str] = []
+    branch: str | None = None
+    focus: str = ""
+    rebuildIndex: bool = True
 
-    def log_message(self, format: str, *args: Any) -> None:  # noqa: A003
-        return
+    class Config:
+        extra = "allow"
 
-    def _read_json(self) -> dict[str, Any]:
-        length = int(self.headers.get("Content-Length", "0"))
-        raw = self.rfile.read(length) if length > 0 else b"{}"
-        try:
-            data = json.loads(raw.decode("utf-8"))
-        except json.JSONDecodeError as exc:
-            raise ValueError("请求体不是合法 JSON") from exc
-        if not isinstance(data, dict):
-            raise ValueError("请求体必须是 JSON object")
-        return data
 
-    def _send_cors_headers(self) -> None:
-        self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+@app.on_event("startup")
+def startup() -> None:
+    ensure_dirs()
 
-    def _send_json(self, status_code: int, payload: dict[str, Any]) -> None:
-        body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
-        self.send_response(status_code)
-        self._send_cors_headers()
-        self.send_header("Content-Type", "application/json; charset=utf-8")
-        self.send_header("Content-Length", str(len(body)))
-        self.end_headers()
-        self.wfile.write(body)
+
+@app.get("/health")
+def health() -> dict[str, Any]:
+    return {
+        "status": "ok",
+        "service": "knowledge-platform-bridge",
+        "time": now_text(),
+    }
+
+
+@app.post("/api/distill")
+def api_distill(payload: Payload) -> dict[str, Any]:
+    return handle_distill(payload.model_dump())
+
+
+@app.post("/api/ingest-repo")
+def api_ingest_repo(payload: Payload) -> dict[str, Any]:
+    result = run_ingest(payload.model_dump())
+    preview = {
+        "summary": (result.get("summary") or "")[:1200],
+        "tree": (result.get("tree") or "")[:2000],
+    }
+    return {
+        "status": "ok",
+        "message": "仓库理解完成",
+        "source": result.get("source"),
+        "ingestSource": result.get("ingest_source"),
+        "outputFile": result.get("output_file"),
+        "summaryLength": result.get("summary_length"),
+        "treeLength": result.get("tree_length"),
+        "contentLength": result.get("content_length"),
+        "preview": preview,
+    }
+
+
+@app.post("/api/analyze-project")
+def api_analyze_project(payload: Payload) -> dict[str, Any]:
+    return handle_analyze_project(payload.model_dump())
+
+
+@app.post("/api/writeback-analysis")
+def api_writeback_analysis(payload: Payload) -> dict[str, Any]:
+    return build_analysis_writeback(payload.model_dump())
 
 
 def main() -> int:
+    import uvicorn
     ensure_dirs()
     port = int(os.environ.get("KNOWLEDGE_PLATFORM_BRIDGE_PORT", str(DEFAULT_PORT)))
-    server = ThreadingHTTPServer(("127.0.0.1", port), BridgeHandler)
     print(f"Knowledge platform bridge listening on http://127.0.0.1:{port}")
-    try:
-        server.serve_forever()
-    except KeyboardInterrupt:
-        pass
-    finally:
-        server.server_close()
+    uvicorn.run(app, host="127.0.0.1", port=port, log_level="info")
     return 0
 
 

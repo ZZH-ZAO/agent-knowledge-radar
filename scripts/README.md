@@ -7,7 +7,7 @@
 | 脚本 | 用途 | 运行方式 |
 |------|------|---------|
 | `build_knowledge_index.py` | 从 `docs/` 构建 `knowledge-index.json` 索引 | `python scripts/build_knowledge_index.py` |
-| `knowledge_platform_bridge.py` | 前端桥接服务，提供 API | `python scripts/knowledge_platform_bridge.py` |
+| `knowledge_platform_bridge.py` | 前端桥接服务（FastAPI），提供 API | `python scripts/knowledge_platform_bridge.py` |
 | `project_radar.py` | 项目发现、评分、沉淀 | `python scripts/project_radar.py status` |
 | `ingest_repo.py` | 仓库内容抓取（基于 gitingest） | `python scripts/ingest_repo.py <url>` |
 | `knowledge_lint.py` | 知识库健康检查 | `python scripts/knowledge_lint.py` |
