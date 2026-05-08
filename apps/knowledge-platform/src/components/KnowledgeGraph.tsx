@@ -47,12 +47,14 @@ export function KnowledgeGraph({ data }: { data: GraphData }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const navigate = useNavigate();
   const [filter, setFilter] = useState<string>('all');
-  const [hoveredNode, setHoveredNode] = useState<SimNode | null>(null);
+  const [hoveredInfo, setHoveredInfo] = useState<SimNode | null>(null);
   const nodesRef = useRef<SimNode[]>([]);
+  const hoveredRef = useRef<SimNode | null>(null);
   const animRef = useRef<number>(0);
   const zoomRef = useRef(1);
   const panRef = useRef({ x: 0, y: 0 });
   const dragRef = useRef<{ startX: number; startY: number; panX: number; panY: number } | null>(null);
+  const tempRef = useRef(1.0);
 
   const filteredData = React.useMemo(() => {
     if (filter === 'all') return data;
@@ -115,48 +117,56 @@ export function KnowledgeGraph({ data }: { data: GraphData }) {
     function tick() {
       if (!ctx) return;
 
-      // Simple force simulation
-      for (const node of nodes) {
-        // Center gravity
-        node.vx += (w / 2 - node.x) * 0.0005;
-        node.vy += (h / 2 - node.y) * 0.0005;
+      // Cool down: temperature decays from 1.0 to 0.02
+      if (tempRef.current > 0.02) {
+        tempRef.current *= 0.995;
+      }
+      const temp = tempRef.current;
 
-        // Node repulsion
-        for (const other of nodes) {
-          if (other === node) continue;
-          const dx = node.x - other.x;
-          const dy = node.y - other.y;
-          const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-          const force = 3000 / (dist * dist);
-          node.vx += (dx / dist) * force;
-          node.vy += (dy / dist) * force;
+      // Skip force calculation once settled
+      if (temp > 0.01) {
+        for (const node of nodes) {
+          // Center gravity
+          node.vx += (w / 2 - node.x) * 0.0005;
+          node.vy += (h / 2 - node.y) * 0.0005;
+
+          // Node repulsion
+          for (const other of nodes) {
+            if (other === node) continue;
+            const dx = node.x - other.x;
+            const dy = node.y - other.y;
+            const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+            const force = 2000 / (dist * dist);
+            node.vx += (dx / dist) * force;
+            node.vy += (dy / dist) * force;
+          }
         }
-      }
 
-      // Edge attraction
-      for (const rel of filteredData.relations) {
-        const a = nodeMap.get(rel.from);
-        const b = nodeMap.get(rel.to);
-        if (!a || !b) continue;
-        const dx = b.x - a.x;
-        const dy = b.y - a.y;
-        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-        const force = (dist - 250) * 0.003;
-        a.vx += (dx / dist) * force;
-        a.vy += (dy / dist) * force;
-        b.vx -= (dx / dist) * force;
-        b.vy -= (dy / dist) * force;
-      }
+        // Edge attraction
+        for (const rel of filteredData.relations) {
+          const a = nodeMap.get(rel.from);
+          const b = nodeMap.get(rel.to);
+          if (!a || !b) continue;
+          const dx = b.x - a.x;
+          const dy = b.y - a.y;
+          const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+          const force = (dist - 200) * 0.004;
+          a.vx += (dx / dist) * force;
+          a.vy += (dy / dist) * force;
+          b.vx -= (dx / dist) * force;
+          b.vy -= (dy / dist) * force;
+        }
 
-      // Apply velocity with damping
-      for (const node of nodes) {
-        node.vx *= 0.85;
-        node.vy *= 0.85;
-        node.x += node.vx;
-        node.y += node.vy;
-        // Keep in bounds
-        node.x = Math.max(30, Math.min(w - 30, node.x));
-        node.y = Math.max(30, Math.min(h - 30, node.y));
+        // Apply velocity with temperature-based damping
+        for (const node of nodes) {
+          node.vx *= 0.8;
+          node.vy *= 0.8;
+          node.x += node.vx * temp;
+          node.y += node.vy * temp;
+          // Keep in bounds
+          node.x = Math.max(30, Math.min(w - 30, node.x));
+          node.y = Math.max(30, Math.min(h - 30, node.y));
+        }
       }
 
       // Draw
@@ -187,7 +197,7 @@ export function KnowledgeGraph({ data }: { data: GraphData }) {
         ctx.arc(node.x, node.y, r, 0, Math.PI * 2);
         ctx.fillStyle = NODE_COLORS[node.kind] || '#6b7280';
         ctx.fill();
-        if (node === hoveredNode) {
+        if (node === hoveredRef.current) {
           ctx.strokeStyle = '#fff';
           ctx.lineWidth = 2;
           ctx.stroke();
@@ -208,7 +218,7 @@ export function KnowledgeGraph({ data }: { data: GraphData }) {
 
     tick();
     return () => cancelAnimationFrame(animRef.current);
-  }, [filteredData, initSimulation, hoveredNode]);
+  }, [filteredData, initSimulation]);
 
   function screenToWorld(sx: number, sy: number): [number, number] {
     return [
@@ -268,12 +278,14 @@ export function KnowledgeGraph({ data }: { data: GraphData }) {
       const dx = wx - node.x;
       const dy = wy - node.y;
       if (dx * dx + dy * dy < 100) {
-        setHoveredNode(node);
+        hoveredRef.current = node;
+        if (hoveredInfo !== node) setHoveredInfo(node);
         canvas.style.cursor = 'pointer';
         return;
       }
     }
-    setHoveredNode(null);
+    hoveredRef.current = null;
+    if (hoveredInfo !== null) setHoveredInfo(null);
     canvas.style.cursor = 'grab';
   }
 
@@ -308,6 +320,7 @@ export function KnowledgeGraph({ data }: { data: GraphData }) {
   function resetView() {
     zoomRef.current = 1;
     panRef.current = { x: 0, y: 0 };
+    tempRef.current = 1.0;
   }
 
   const kindCounts = React.useMemo(() => {
@@ -387,13 +400,13 @@ export function KnowledgeGraph({ data }: { data: GraphData }) {
           </div>
         </div>
 
-        {hoveredNode && (
+        {hoveredInfo && (
           <div style={{ marginTop: '0.5rem', padding: '0.5rem', background: '#1e293b', borderRadius: '6px', fontSize: '0.85rem' }}>
-            <strong>{hoveredNode.label}</strong>
-            <span style={{ marginLeft: '0.5rem', color: NODE_COLORS[hoveredNode.kind] }}>
-              {NODE_KIND_LABELS[hoveredNode.kind] || hoveredNode.kind}
+            <strong>{hoveredInfo.label}</strong>
+            <span style={{ marginLeft: '0.5rem', color: NODE_COLORS[hoveredInfo.kind] }}>
+              {NODE_KIND_LABELS[hoveredInfo.kind] || hoveredInfo.kind}
             </span>
-            {hoveredNode.score != null && <span style={{ marginLeft: '0.5rem' }}>评分 {hoveredNode.score}</span>}
+            {hoveredInfo.score != null && <span style={{ marginLeft: '0.5rem' }}>评分 {hoveredInfo.score}</span>}
           </div>
         )}
       </article>
