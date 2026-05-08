@@ -34,6 +34,11 @@
       "env": {
         "BRAVE_API_KEY": "${BRAVE_API_KEY}"
       }
+    },
+    "agent-knowledge-radar": {
+      "command": "/c/Users/ZZH/AppData/Local/Programs/Python/Python313/python.exe",
+      "args": ["scripts/mcp_server.py"],
+      "cwd": "D:\\claude-code-sourcemap"
     }
   }
 }
