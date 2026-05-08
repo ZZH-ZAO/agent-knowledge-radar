@@ -782,19 +782,19 @@ button {
 }
 
 .detail-header > div {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  flex-wrap: wrap;
+  display: contents;
 }
 
 .detail-header .eyebrow {
   flex-shrink: 0;
+  margin-right: 8px;
 }
 
 .detail-header h2,
 .detail-header h3 {
   margin: 0;
+  flex: 1;
+  min-width: 0;
 }
 
 .inline-badges {
