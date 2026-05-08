@@ -13,6 +13,8 @@ import { ProjectsView } from './pages/ProjectsView';
 import { SolutionsView } from './pages/SolutionsView';
 import { PainPointsView } from './pages/PainPointsView';
 import { EngineeringLogicView, SourcesView, InterviewsView, InterviewerView, RadarView, FeedbackSummaryView, VisualGenerationView } from './pages/OtherViews';
+import { KnowledgeGraph } from './components/KnowledgeGraph';
+import { buildGraphData } from './utils';
 
 const data = rawData as KnowledgeIndex;
 
@@ -28,6 +30,7 @@ const viewToPath: Record<View, string> = {
   radar: '/radar',
   feedback: '/feedback',
   'visual-generation': '/visual-generation',
+  graph: '/graph',
 };
 
 function pathToView(pathname: string): View {
@@ -231,6 +234,7 @@ function AppShell() {
             <Route path="/radar" element={<RadarView projects={data.projects} />} />
             <Route path="/feedback" element={<FeedbackSummaryView />} />
             <Route path="/visual-generation" element={<VisualGenerationView />} />
+            <Route path="/graph" element={<GraphRoute />} />
           </Routes>
         </Suspense>
           </>
@@ -357,4 +361,12 @@ function InterviewsRoute() {
       onSelect={(id) => navigate(`/interviews/${id}`)}
     />
   );
+}
+
+function GraphRoute() {
+  const graphData = useMemo(
+    () => buildGraphData(data.projects, data.solutions, data.painPoints, data.sources, data.interviews.items),
+    [],
+  );
+  return <KnowledgeGraph data={graphData} />;
 }

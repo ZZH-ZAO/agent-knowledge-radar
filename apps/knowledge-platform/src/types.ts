@@ -157,3 +157,24 @@ export type KnowledgeIndex = {
     };
   };
 };
+
+export type RelationType = 'supports' | 'solves' | 'implements' | 'evidence-for' | 'related';
+
+export type Relation = {
+  from: string;
+  to: string;
+  type: RelationType;
+  weight: number;
+};
+
+export type GraphNode = {
+  id: string;
+  label: string;
+  kind: 'project' | 'solution' | 'painPoint' | 'source' | 'interview';
+  score?: number;
+};
+
+export type GraphData = {
+  nodes: GraphNode[];
+  relations: Relation[];
+};

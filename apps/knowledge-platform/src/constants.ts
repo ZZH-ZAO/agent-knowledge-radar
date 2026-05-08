@@ -9,6 +9,7 @@ import {
   GitBranch,
   Layers3,
   MessageSquareText,
+  Network,
   Radar,
   Sparkles,
 } from 'lucide-react';
@@ -24,7 +25,8 @@ export type View =
   | 'interviewer'
   | 'radar'
   | 'feedback'
-  | 'visual-generation';
+  | 'visual-generation'
+  | 'graph';
 
 export type ReaderKind = 'project' | 'solution' | 'pain-point' | 'source' | 'engineering-logic';
 
@@ -59,6 +61,7 @@ export const navItems: Array<{ id: View; label: string; icon: React.ComponentTyp
   { id: 'radar', label: '雷达', icon: Radar },
   { id: 'feedback', label: '反馈', icon: MessageSquareText },
   { id: 'visual-generation', label: '视觉生成', icon: Sparkles },
+  { id: 'graph', label: '知识图谱', icon: Network },
 ];
 
 export const viewMeta: Record<View, { title: string; subtitle: string }> = {
@@ -105,5 +108,9 @@ export const viewMeta: Record<View, { title: string; subtitle: string }> = {
   'visual-generation': {
     title: '视觉生成工作流',
     subtitle: '把 DESIGN.md、页面风格样本、生成图与真实前端实现串成稳定的中文页面设计流程。',
+  },
+  graph: {
+    title: '知识图谱',
+    subtitle: '把项目、方案、痛点、资料源和面经的关系网络可视化，发现隐藏的关联和知识结构。',
   },
 };

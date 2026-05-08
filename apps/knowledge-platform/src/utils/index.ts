@@ -505,3 +505,81 @@ export function recommendFolder(goal: string) {
       return '优先写入 docs/external-projects/ 或 docs/patterns/。';
   }
 }
+
+export function buildGraphData(
+  projects: import('../types').Project[],
+  solutions: import('../types').Solution[],
+  painPoints: import('../types').PainPoint[],
+  sources: import('../types').SourceItem[],
+  interviews: import('../types').InterviewItem[],
+): import('../types').GraphData {
+  const nodes: import('../types').GraphNode[] = [];
+  const relations: import('../types').Relation[] = [];
+  const seen = new Set<string>();
+
+  function addNode(id: string, label: string, kind: import('../types').GraphNode['kind'], score?: number) {
+    if (seen.has(id)) return;
+    seen.add(id);
+    nodes.push({ id, label, kind, score });
+  }
+
+  for (const p of projects) {
+    addNode(p.id, p.name, 'project', p.score);
+    for (const patternId of p.relatedPatterns) {
+      addNode(patternId, patternId, 'solution');
+      relations.push({ from: p.id, to: patternId, type: 'implements', weight: 2 });
+    }
+    if (p.writebackTargets) {
+      for (const ppId of p.writebackTargets.painPoints) {
+        addNode(ppId, ppId, 'painPoint');
+        relations.push({ from: p.id, to: ppId, type: 'evidence-for', weight: 1 });
+      }
+      for (const intId of p.writebackTargets.interviews) {
+        addNode(intId, intId, 'interview');
+        relations.push({ from: p.id, to: intId, type: 'supports', weight: 1 });
+      }
+    }
+  }
+
+  for (const s of solutions) {
+    addNode(s.id, s.title, 'solution');
+  }
+
+  for (const pp of painPoints) {
+    addNode(pp.id, pp.title, 'painPoint');
+    if (pp.relatedSolution) {
+      addNode(pp.relatedSolution, pp.relatedSolution, 'solution');
+      relations.push({ from: pp.id, to: pp.relatedSolution, type: 'solves', weight: 2 });
+    }
+    for (const projId of pp.evidenceProjects) {
+      addNode(projId, projId, 'project');
+      relations.push({ from: projId, to: pp.id, type: 'evidence-for', weight: 2 });
+    }
+  }
+
+  for (const src of sources) {
+    addNode(src.id, src.title, 'source');
+    for (const ppId of src.relatedPainPoints) {
+      addNode(ppId, ppId, 'painPoint');
+      relations.push({ from: src.id, to: ppId, type: 'evidence-for', weight: 1 });
+    }
+    for (const patId of src.relatedPatterns) {
+      addNode(patId, patId, 'solution');
+      relations.push({ from: src.id, to: patId, type: 'related', weight: 1 });
+    }
+  }
+
+  for (const item of interviews) {
+    addNode(item.id, item.rawQuestion, 'interview');
+    for (const projId of item.relatedProjects) {
+      addNode(projId, projId, 'project');
+      relations.push({ from: item.id, to: projId, type: 'related', weight: 1 });
+    }
+    for (const patId of item.relatedPatterns) {
+      addNode(patId, patId, 'solution');
+      relations.push({ from: item.id, to: patId, type: 'related', weight: 1 });
+    }
+  }
+
+  return { nodes, relations };
+}
