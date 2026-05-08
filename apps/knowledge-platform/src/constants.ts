@@ -7,6 +7,7 @@ import {
   FileSearch,
   FolderKanban,
   GitBranch,
+  GitCompare,
   Layers3,
   MessageSquareText,
   Network,
@@ -26,7 +27,8 @@ export type View =
   | 'radar'
   | 'feedback'
   | 'visual-generation'
-  | 'graph';
+  | 'graph'
+  | 'compare';
 
 export type ReaderKind = 'project' | 'solution' | 'pain-point' | 'source' | 'engineering-logic';
 
@@ -62,6 +64,7 @@ export const navItems: Array<{ id: View; label: string; icon: React.ComponentTyp
   { id: 'feedback', label: '反馈', icon: MessageSquareText },
   { id: 'visual-generation', label: '视觉生成', icon: Sparkles },
   { id: 'graph', label: '知识图谱', icon: Network },
+  { id: 'compare', label: '方案对比', icon: GitCompare },
 ];
 
 export const viewMeta: Record<View, { title: string; subtitle: string }> = {
@@ -112,5 +115,9 @@ export const viewMeta: Record<View, { title: string; subtitle: string }> = {
   graph: {
     title: '知识图谱',
     subtitle: '把项目、方案、痛点、资料源和面经的关系网络可视化，发现隐藏的关联和知识结构。',
+  },
+  compare: {
+    title: '方案对比',
+    subtitle: '选择 2-4 个项目并排对比，按主分类、业务场景、最大亮点和行动项快速判断哪个更适合当前场景。',
   },
 };

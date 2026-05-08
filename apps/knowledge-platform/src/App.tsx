@@ -14,6 +14,7 @@ import { SolutionsView } from './pages/SolutionsView';
 import { PainPointsView } from './pages/PainPointsView';
 import { EngineeringLogicView, SourcesView, InterviewsView, InterviewerView, RadarView, FeedbackSummaryView, VisualGenerationView } from './pages/OtherViews';
 import { KnowledgeGraph } from './components/KnowledgeGraph';
+import { CompareView } from './pages/CompareView';
 import { buildGraphData } from './utils';
 
 const data = rawData as KnowledgeIndex;
@@ -31,6 +32,7 @@ const viewToPath: Record<View, string> = {
   feedback: '/feedback',
   'visual-generation': '/visual-generation',
   graph: '/graph',
+  compare: '/compare',
 };
 
 function pathToView(pathname: string): View {
@@ -235,6 +237,7 @@ function AppShell() {
             <Route path="/feedback" element={<FeedbackSummaryView />} />
             <Route path="/visual-generation" element={<VisualGenerationView />} />
             <Route path="/graph" element={<GraphRoute />} />
+            <Route path="/compare" element={<CompareView projects={data.projects} />} />
           </Routes>
         </Suspense>
           </>
