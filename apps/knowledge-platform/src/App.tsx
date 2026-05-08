@@ -1,7 +1,7 @@
 import React, { Suspense, lazy, useEffect, useMemo, useState } from 'react';
 import { BrowserRouter, Routes, Route, useParams, useNavigate, Navigate, useLocation } from 'react-router-dom';
 import { Search, Sparkles } from 'lucide-react';
-import rawData from './data/knowledge-index.json';
+import rawData from '@data/knowledge-index.json';
 import type { KnowledgeIndex, SearchItem } from './types';
 import type { View, ReaderKind, ReaderTarget } from './constants';
 import { navItems, viewMeta } from './constants';
