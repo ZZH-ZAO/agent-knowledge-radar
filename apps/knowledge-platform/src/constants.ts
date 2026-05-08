@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   AlertTriangle,
+  BookOpen,
   BrainCircuit,
   ClipboardList,
   FileQuestion,
@@ -28,7 +29,8 @@ export type View =
   | 'feedback'
   | 'visual-generation'
   | 'graph'
-  | 'compare';
+  | 'compare'
+  | 'learning-path';
 
 export type ReaderKind = 'project' | 'solution' | 'pain-point' | 'source' | 'engineering-logic';
 
@@ -65,6 +67,7 @@ export const navItems: Array<{ id: View; label: string; icon: React.ComponentTyp
   { id: 'visual-generation', label: '视觉生成', icon: Sparkles },
   { id: 'graph', label: '知识图谱', icon: Network },
   { id: 'compare', label: '方案对比', icon: GitCompare },
+  { id: 'learning-path', label: '学习路径', icon: BookOpen },
 ];
 
 export const viewMeta: Record<View, { title: string; subtitle: string }> = {
@@ -119,5 +122,9 @@ export const viewMeta: Record<View, { title: string; subtitle: string }> = {
   compare: {
     title: '方案对比',
     subtitle: '选择 2-4 个项目并排对比，按主分类、业务场景、最大亮点和行动项快速判断哪个更适合当前场景。',
+  },
+  'learning-path': {
+    title: '学习路径',
+    subtitle: '按入门、进阶和面试三条路径系统学习 Agent 工程，进度自动保存到本地。',
   },
 };
