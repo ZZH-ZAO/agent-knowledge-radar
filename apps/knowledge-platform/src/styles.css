@@ -781,6 +781,22 @@ button {
   gap: 12px;
 }
 
+.detail-header > div {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.detail-header .eyebrow {
+  flex-shrink: 0;
+}
+
+.detail-header h2,
+.detail-header h3 {
+  margin: 0;
+}
+
 .inline-badges {
   display: flex;
   flex-wrap: wrap;
